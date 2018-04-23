@@ -45,10 +45,14 @@ Node* sortedMerge(Node* a,Node* b, int opt){
    		x = a->demand.origem;
    		y = b->demand.origem;
    	}
-   	else{
+   	else if(opt == 1){
 		x = a->demand.destino;
    		y = b->demand.destino;
    	}
+    else{
+        x = a->demand.id;
+   		y = b->demand.id;
+    }
 
     if (x <= y){
         result = a;

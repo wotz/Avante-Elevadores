@@ -40,7 +40,7 @@ void push(Lista* l, Demand demand){
 
 
 //Função pop boladona
-//Ressalto que o caralho da id tem que começar em 1 se não fode a porra toda
+//Ressalto que o caralho da lista tem que tá ordenada pela id
 int pop(Lista* l,int id){
 	//Nó auxiliar para percorrer a lista, começa no begin
 	Node* aux = createNode();
