@@ -73,3 +73,4 @@ void printStatus (Elevador *e){
 	printf("|	Lotacao atual: %d 	    |\n",e->lotacao);
 	printf("-------------------------------------\n");
 }
+

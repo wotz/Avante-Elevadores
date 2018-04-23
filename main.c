@@ -3,9 +3,10 @@
 #include "lista.h"
 #include "merge.h"
 #include "elevador.h"
-
+#include "listaAdvanced.h"
 int main(){
 	Lista* l = createList();
+	Elevador e = createElevador(0, 20,10);
 	Demand demand;
 	demand.id=1;
 	demand.origem=18;
@@ -90,6 +91,6 @@ int main(){
 	demand.t=21;
 	push(l,demand);
 	merge(l,0);
-	printList(l);
+	generateNow(l,e.posicao,20);
 	return 0;	
 }

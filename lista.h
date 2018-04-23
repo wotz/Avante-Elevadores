@@ -28,6 +28,9 @@ Node* sortedMerge(Node* a,Node* b, int opt);
 Node* find(Lista* l,int id);
 int findFloor(Lista* l, int andar);
 int isEmpety(Lista* l);
+int pop(Lista* l,int id);
 void push(Lista* l, Demand demand);
 void printList(Lista *l);
-int pop(Lista* l,int id);
+void printNode(Node* node);
+Node* createNode();
+
