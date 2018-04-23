@@ -1,4 +1,6 @@
-#include "headers.h"
+#include "lista.h"
+#include "merge.h"
+#include "elevador.h"
 #include <stdio.h>
 #include <stdlib.h>
 #include <time.h>
@@ -13,7 +15,7 @@ Elevador createElevador(int min, int max, int c){
 	e.andarMax = max;
 	e.capacidade = c;
 	e.lotacao=0;
-	e.posicao=0;
+	e.posicao=7;
 	return e;
 }
 
@@ -46,7 +48,7 @@ int isLotado(Elevador e){
 
 
 //Simula a entrada de uma pessoa no elevador
-int carrega(Elevador *e){
+int embarca(Elevador *e){
 	if(!isLotado(*e)){
 		e->lotacao++;
 		return 1;
@@ -57,7 +59,7 @@ int carrega(Elevador *e){
 
 
 //Simula a saída de uma pessoa no elevador
-void descarrega(Elevador *e){
+void desembarca(Elevador *e){
 	e->lotacao--;
 }
 
@@ -71,21 +73,3 @@ void printStatus (Elevador *e){
 	printf("|	Lotacao atual: %d 	    |\n",e->lotacao);
 	printf("-------------------------------------\n");
 }
-
-void atende(Elevador *e, Lista* l, int destino){
-	int i,posicao = e->posicao;
-	if(destino > posicao){
-		for(i = posicao; i < destino; i++){
-			printf("%d temos: %d\n", i,findFloor(l,i));
-		}
-	}
-	else if(destino < posicao){
-		for(i = destino; i < posicao; i++){
-			system("clear");
-			descer(e);
-			printf("Satanas Elevadores: %d\n", e->posicao);
-			sleep(0.25);
-		}
-	}
-	printList(l);
-} 

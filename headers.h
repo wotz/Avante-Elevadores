@@ -32,7 +32,7 @@ void printList(Lista *l);
 void pop(Lista* l);
 void popAt(Lista *l, int id);
 void popEnd(Lista* l);
-void merge(Lista* l,Node** beginPointer, int opt);
+void merge(Lista* l,int opt);
 void mergeSort(Node** beginPointer, int opt);
 void frontBackSplit(Node* source,Node** frontRef,Node** backRef);
 void generateUp(Lista* l, int p);
@@ -55,11 +55,11 @@ Elevador createElevador(int min, int max, int c);
 int subir(Elevador *e);
 int descer(Elevador *e);
 int isLotado(Elevador e);
-int carrega(Elevador *e);
-void descarrega(Elevador *e);
+int embarca(Elevador *e);
+void desembarca(Elevador *e);
 void printStatus(Elevador *e);
 void atende(Elevador *e, Lista* l, int destino);
-int temos(Lista* l,int posicao);
+
 //---Funções do controle---//
 void oneTime(Lista *l, Elevador *e);
 void sjf(Elevador* e, Lista* l);

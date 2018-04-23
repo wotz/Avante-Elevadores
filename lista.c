@@ -58,15 +58,26 @@ void pop(Lista* l){
 }
 
 void popAt(Lista* l,int id){
-	//Tratar a restricao caso a lista tenha tamanho 2
-	//Remove do miolo
-	Node* node = createNode();
-	Node* pointer = createNode();
-	pointer  = l->begin;
+
+	Node* node = createNode();//no auxiliar para percorrer a lista
 	node = find(l,id);
-	while(pointer->next != node)
+	
+	Node* pointer = createNode();//guarda o no que tem que ser removido
+	pointer  = l->begin;
+	
+	while(pointer->next != node)//percorre até o nó com id anterior a do nó buscado
 		pointer = pointer->next;
-	pointer->next = node->next;
+	
+	//se for remover o nó do fim da fila a l->head aponta pro nó anterior
+	if(id == l->size && l->size>=2)
+		l->head = pointer;
+	
+	pointer->next = node->next;//faz o nó anterior apontar pro próximo do nó desejado
+	
+	//se a id for o 1 e o tamanho for maior que 2 o begin passa apontar para o próximo no
+	if(id == 1 && l->size>=2)
+		l->begin = l->begin->next;
+	
 	free(node);
 	l->size--;
 }	
@@ -160,8 +171,8 @@ Node* createNode(){
 //-----Merge Sort-----//
 
 //Algoritmo obtido do site: https://ide.geeksforgeeks.org/index.php
-void merge(Lista* l,Node** beginPointer, int opt){
-	mergeSort(beginPointer,opt);
+void merge(Lista* l,int opt){
+	mergeSort(&l->begin,opt);
 	//Algoritmo que faz com que o head aponte para o fim da lista depois de aplicar o merge
 	Node* pointer = createNode();
 	pointer = l->begin; 
