@@ -103,8 +103,7 @@ void printList(Lista* l){
 	Node* pointer = createNode();
 	pointer = l->begin;
 	while(pointer != NULL){
-		printf("Id: %d Origem: %d Destino: %d\n", pointer->demand.id, 
-			pointer->demand.origem, pointer->demand.destino);
+		printNode(pointer);
 		pointer = pointer->next;
 	}
 }
@@ -124,23 +123,30 @@ Node* find(Lista* l,int id){
 	return NULL;
 }
 
-
+/*
 //Retorna o número de solicitações no andar andar
-int findFloor(Lista* l,int andar){
+int findFloor(Lista* l,int andar, char opc){
 	Node* node = l->begin;
 	int i, busca, n = 0;
-	busca = node->demand.origem;
+	if(opc == 'o')
+		busca = node->demand.origem;
+	else
+		busca = node->demand.destino;
 	for(i = 1; i <= l->size;i++){
 		if(andar == busca)
 			n++;
 		if(i != l->size){
 			node = node->next;
-			busca = node->demand.origem;
+			if(opc == 'o')
+				busca = node->demand.origem;
+			else 
+				busca = node->demand.destino;
 		}
 	}
 	return n;
 }
 
+*/
 
 //Retorna uma nova lista que é cópia da recebida como parâmetro
 Lista* copyList(Lista* l){
@@ -164,6 +170,9 @@ Node* createNode(){
 }
 
 void printNode(Node* node){
-	printf("Id: %d Origem: %d Destino: %d\n", node->demand.id, node->demand.origem,
-		node->demand.destino);
+	if(node != NULL)
+		printf("Id: %d Origem: %d Destino: %d Status: %d\n", node->demand.id, node->demand.origem,
+			node->demand.destino, node->demand.status);
+	else
+		exit(1);
 }

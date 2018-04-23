@@ -31,7 +31,6 @@ void atende(Elevador* e, Lista* l,int destino){
 	Lista* possible= createList();
 	possible = generatePossible(l,e->posicao, destino);
 
-
 	//Cria nó auxiliar para percorrer now
 	Node* pointer = createNode();
 	pointer = possible->begin;
@@ -42,22 +41,47 @@ void atende(Elevador* e, Lista* l,int destino){
 	int destiny;
 	destiny = pointer->demand.destino;
 
-	/*for(int andar = e->posicao; andar <= destino; andar++){
-		system("clear");			
+	for(int andar = e->posicao; andar <= destino; andar++){
+
+		//Loop que verifica se temos solicitações para o andar andar
+		while(pointer != NULL){
+			
+			//Solicitacoes por origem(embarque)
+			if(andar == pointer->demand.origem){
+				if(e->capacidade - 1 > 0)//Temos que guardar espaço para a primeira requisição
+					embarca(e);
+				pointer->demand.status = 1;//em atendimento
+			}
+			//Solicitacoes por destino(desembarque)
+			else if(andar == pointer->demand.destino){
+				desembarca(e);
+				pointer->demand.status = 2;
+				pop(l,pointer->demand.id);
+			}
+			//printNode(pointer);
+			pointer = pointer->next;
+		}
+		pointer = possible->begin;
+		/*system("clear");			
+		printStatus(e);
+		sleep(0.2);
+		subir(e);*/
+	}
+	pointer = possible->begin;
+	printf("\n\n\n");
+	while(pointer != NULL){
+		printNode(pointer);
+		pointer = pointer->next;
+	}
+
+}
+
+
+/*
+system("clear");			
 		printStatus(e);
 		printNode(pointer);
 		if(pointer->next != NULL)
 			pointer = pointer->next;
 		sleep(0.5);
-		subir(e);		
-		
-	}
-	system("clear");
-	printStatus(e);
-*/
-	printf("possible:\n");
-	printList(possible);
-	printf("\nImpossible:\n");
-	printList(impossible);
-	
-}
+		subir(e);		*/
