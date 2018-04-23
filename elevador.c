@@ -1,6 +1,4 @@
-#include "lista.h"
-#include "merge.h"
-#include "elevador.h"
+#include "headers.h"
 #include <stdio.h>
 #include <stdlib.h>
 #include <time.h>
@@ -25,7 +23,7 @@ int subir(Elevador *e){
 	if(e->posicao < e->andarMax)
 		e->posicao++;
 	else
-		printf("Tudo tem limite\n");
+		exit(1);
 }
 
 
@@ -34,7 +32,7 @@ int descer(Elevador *e){
 	if(e->posicao > e->andarMin)
 		e->posicao--;
 	else
-		printf("Do chao nao passa\n");
+		exit(1);
 }
 
 

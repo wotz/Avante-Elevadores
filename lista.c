@@ -1,6 +1,6 @@
 #include <stdio.h>
 #include <stdlib.h>
-#include "lista.h"
+#include "headers.h"
 //-----Funções Básicas de Gerenciamento de Lista-----//
 
 

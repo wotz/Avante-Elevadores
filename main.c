@@ -1,9 +1,6 @@
 #include <stdio.h>
 #include <stdlib.h>
-#include "lista.h"
-#include "merge.h"
-#include "elevador.h"
-#include "listaAdvanced.h"
+#include "headers.h"
 int main(){
 	Lista* l = createList();
 	Elevador e = createElevador(0, 20,10);
@@ -91,6 +88,6 @@ int main(){
 	demand.t=21;
 	push(l,demand);
 	merge(l,0);
-	generateNow(l,e.posicao,20);
+	atende(&e,l,20);
 	return 0;	
 }

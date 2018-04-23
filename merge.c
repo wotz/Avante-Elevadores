@@ -1,5 +1,4 @@
-#include "lista.h"
-#include "merge.h"
+#include "headers.h"
 #include <stdio.h>
 #include <stdlib.h>
 //-----Merge Sort-----//

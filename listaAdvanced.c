@@ -1,6 +1,4 @@
-#include "lista.h"
-#include "merge.h"
-#include "elevador.h"
+#include "headers.h"
 #include "listaAdvanced.h"
 #include <stdio.h>
 #include <stdlib.h>
@@ -26,7 +24,7 @@ Lista* generateNow(Lista* l, int posicao, int destino){
 	destiny =	pointer->demand.destino;
 
 	for(int i = 1; i < l->size;i++){
-		if(origin >= posicao && destiny <= destino && destiny >= posicao){
+		if(origin >= posicao && destiny <= destino){
 			push(now,pointer->demand);
 		}
 		pointer = pointer->next;
