@@ -25,12 +25,16 @@ void goTo(Elevador *e, int destino){
 
 void atende(Elevador* e, Lista* l,int destino){
 	//Gera lista com solicitações passíveis de serem atendidas agora
-	Lista* now = createList();
-	now = generateNow(l,e->posicao,destino);
+	Lista* impossible = createList();
+	impossible = generateImpossible(l,e->posicao,destino);
 	
+	Lista* possible= createList();
+	possible = generatePossible(l,e->posicao, destino);
+
+
 	//Cria nó auxiliar para percorrer now
 	Node* pointer = createNode();
-	pointer = now->begin;
+	pointer = possible->begin;
 
 	//Variáveis auxiliares para guarda origem e destino do pointer
 	int origin;
@@ -38,7 +42,7 @@ void atende(Elevador* e, Lista* l,int destino){
 	int destiny;
 	destiny = pointer->demand.destino;
 
-/*	for(int andar = e->posicao; andar <= destino; andar++){
+	/*for(int andar = e->posicao; andar <= destino; andar++){
 		system("clear");			
 		printStatus(e);
 		printNode(pointer);
@@ -51,5 +55,9 @@ void atende(Elevador* e, Lista* l,int destino){
 	system("clear");
 	printStatus(e);
 */
-	printList(now);
+	printf("possible:\n");
+	printList(possible);
+	printf("\nImpossible:\n");
+	printList(impossible);
+	
 }
