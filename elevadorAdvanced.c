@@ -25,21 +25,15 @@ void goTo(Elevador *e, int destino){
 
 void atende(Elevador* e, Lista* l,int destino){
 	//Gera lista com solicitações passíveis de serem atendidas agora
-	Lista* impossible = createList();
-	impossible = generateImpossible(l,e->posicao,destino);
-	
-	Lista* possible= createList();
-	possible = generatePossible(l,e->posicao, destino);
-
-	//Cria nó auxiliar para percorrer now
+	Lista* all = createList();
+	all = copyList(l);
+	merge(all,0);
+	all = generate(all,e->posicao, destino);
+	//Cria nó auxiliar para percorrer all
 	Node* pointer = createNode();
-	pointer = possible->begin;
+	pointer = all->begin;
 
-	//Variáveis auxiliares para guarda origem e destino do pointer
-	int origin;
-	origin  = pointer->demand.origem;
-	int destiny;
-	destiny = pointer->demand.destino;
+	Node* aux = createNode();
 
 	for(int andar = e->posicao; andar <= destino; andar++){
 
@@ -48,12 +42,26 @@ void atende(Elevador* e, Lista* l,int destino){
 			
 			//Solicitacoes por origem(embarque)
 			if(andar == pointer->demand.origem){
+				system("clear");			
+				printStatus(e);
+				printf("Embarcando\n");
+				printNode(pointer);
+				sleep(5);
 				if(e->capacidade - 1 > 0)//Temos que guardar espaço para a primeira requisição
 					embarca(e);
 				pointer->demand.status = 1;//em atendimento
+				aux = find(l,pointer->demand.id);
+				if(aux != NULL)
+					aux->demand.status = 1;
 			}
 			//Solicitacoes por destino(desembarque)
-			else if(andar == pointer->demand.destino){
+			if(andar == pointer->demand.destino && 
+							pointer->demand.status == 1){
+				system("clear");			
+				printStatus(e);
+				printf("Desembarcando\n");
+				printNode(pointer);
+				sleep(5);
 				desembarca(e);
 				pointer->demand.status = 2;
 				pop(l,pointer->demand.id);
@@ -61,21 +69,19 @@ void atende(Elevador* e, Lista* l,int destino){
 			//printNode(pointer);
 			pointer = pointer->next;
 		}
-		pointer = possible->begin;
-		/*system("clear");			
+		pointer = all->begin;
+		system("clear");			
 		printStatus(e);
-		sleep(0.2);
-		subir(e);*/
+		sleep(1);
+		subir(e);
+		
+		
 	}
-	pointer = possible->begin;
-	printf("\n\n\n");
-	while(pointer != NULL){
-		printNode(pointer);
-		pointer = pointer->next;
-	}
+	printList(all);
+	printf("\n\n");
+	printList(l);
 
 }
-
 
 /*
 system("clear");			

@@ -65,6 +65,7 @@ void desembarca(Elevador *e);
 void printStatus(Elevador *e);
 
 //-----ListaAdvanced.h-----//
+Lista* generate(Lista* l, int posicao, int destino);
 Lista* generatePossible(Lista* l,int posicao, int destino);
 Lista* generateImpossible(Lista* l, int posicao, int destino);
 //-----ElevadorAdvanced.h-----//
