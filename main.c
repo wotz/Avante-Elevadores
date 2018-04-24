@@ -5,7 +5,7 @@
 #include "headers/elevador.h"
 #include "headers/listaAdvanced.h"
 #include "headers/elevadorAdvanced.h"
-
+#include "headers/controle.h"
 
 int main(){
 	Lista* l = createList();
@@ -99,7 +99,8 @@ int main(){
 	demand.destino=1;
 	demand.t=21;
 	push(l,demand);
-	atendeDown(&e,l,0);
-
+	
+	atende(&e, l, 0);
+	
 	return 0;
 }
