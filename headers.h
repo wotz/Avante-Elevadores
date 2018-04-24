@@ -66,8 +66,10 @@ void printStatus(Elevador *e);
 
 //-----ListaAdvanced.h-----//
 Lista* generate(Lista* l, int posicao, int destino);
+void popDone(Lista* l);
 Lista* generatePossible(Lista* l,int posicao, int destino);
 Lista* generateImpossible(Lista* l, int posicao, int destino);
+
 //-----ElevadorAdvanced.h-----//
 void goTo(Elevador *e, int destino);
 void atende(Elevador *e, Lista* l, int destino);
