@@ -1,4 +1,5 @@
-#include "headers.h"
+#include "headers/lista.h"
+#include "headers/listaAdvanced.h"
 #include <stdio.h>
 #include <stdlib.h>
 /*
@@ -26,6 +27,35 @@ Lista* generate(Lista* l, int posicao, int destino){
 
 	while(pointer != NULL){
 		if(origin >= posicao && destiny <= destino){
+			push(now,pointer->demand);
+		}
+		pointer = pointer->next;
+		if(pointer != NULL){
+			origin  = pointer->demand.origem;
+			destiny = pointer->demand.destino; 
+		}
+	}
+	return now;
+}
+
+
+Lista* generateDown(Lista* l, int posicao, int destino){
+	//Nova lista para inserção das demandas passíveis de ser atendidas
+	//Salva os atendimentos intermediarios
+	Lista* now = createList();
+	
+	//Ponteiro auxiliar para percorrer lista começando do begin
+	Node* pointer = createNode();
+	pointer 	  = l->begin;
+
+	//Variáveis auxiliares para comparações no for
+	int origin;
+	origin  = 	pointer->demand.origem;
+	int destiny;
+	destiny =	pointer->demand.destino;
+
+	while(pointer != NULL){
+		if(origin <= posicao && destiny >= destino){
 			push(now,pointer->demand);
 		}
 		pointer = pointer->next;

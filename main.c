@@ -1,6 +1,12 @@
 #include <stdio.h>
 #include <stdlib.h>
-#include "headers.h"
+#include "headers/lista.h"
+#include "headers/merge.h"
+#include "headers/elevador.h"
+#include "headers/listaAdvanced.h"
+#include "headers/elevadorAdvanced.h"
+
+
 int main(){
 	Lista* l = createList();
 	Elevador e = createElevador(0, 20,10);
@@ -88,6 +94,12 @@ int main(){
 	demand.t=21;
 	push(l,demand);
 
+	demand.id=14;
+	demand.origem=2;
+	demand.destino=1;
+	demand.t=21;
+	push(l,demand);
+	atendeDown(&e,l,0);
 
 	return 0;
 }

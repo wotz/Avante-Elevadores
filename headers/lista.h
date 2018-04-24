@@ -1,4 +1,4 @@
-//---Lista Duplamente Encadeada---///
+//---Lista.h---///
 typedef struct solicitacao{
 	int origem;
 	int destino;
@@ -26,11 +26,11 @@ Lista* copyList(Lista* l);
 Node* createNode();
 Node* sortedMerge(Node* a,Node* b, int opt);
 Node* find(Lista* l,int id);
+Node* createNode();
 int findFloor(Lista* l, int andar);
 int isEmpety(Lista* l);
 int pop(Lista* l,int id);
 void push(Lista* l, Demand demand);
 void printList(Lista *l);
 void printNode(Node* node);
-Node* createNode();
 

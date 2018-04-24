@@ -1,3 +1,4 @@
+//-----Elevador.h-----//
 typedef struct elevador{
 	int andarMin;
 	int andarMax;
@@ -16,3 +17,4 @@ int isLotado(Elevador e);
 int embarca(Elevador *e);
 void desembarca(Elevador *e);
 void printStatus(Elevador *e);
+
