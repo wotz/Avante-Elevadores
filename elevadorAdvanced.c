@@ -42,11 +42,11 @@ void atende(Elevador* e, Lista* l,int destino){
 			
 			//Solicitacoes por origem(embarque)
 			if(andar == pointer->demand.origem){
-				system("clear");			
+				/*system("clear");			
 				printStatus(e);
 				printf("Embarcando\n");
 				printNode(pointer);
-				sleep(5);
+				sleep(5);*/
 				if(e->capacidade - 1 > 0)//Temos que guardar espaço para a primeira requisição
 					embarca(e);
 				pointer->demand.status = 1;//em atendimento
@@ -57,12 +57,12 @@ void atende(Elevador* e, Lista* l,int destino){
 			//Solicitacoes por destino(desembarque)
 			if(andar == pointer->demand.destino && 
 							pointer->demand.status == 1){
-				system("clear");			
+				/*system("clear");			
 				printStatus(e);
 				printf("Desembarcando\n");
 				printNode(pointer);
 				sleep(5);
-				desembarca(e);
+				desembarca(e);*/
 				pointer->demand.status = 2;
 				pop(l,pointer->demand.id);
 			}
@@ -70,16 +70,16 @@ void atende(Elevador* e, Lista* l,int destino){
 			pointer = pointer->next;
 		}
 		pointer = all->begin;
-		system("clear");			
+		/*system("clear");			
 		printStatus(e);
 		sleep(1);
-		subir(e);
+		subir(e);*/
 		
 		
 	}
-	printList(all);
+	/*printList(all);
 	printf("\n\n");
-	printList(l);
+	printList(l);*/
 
 }
 

@@ -88,6 +88,8 @@ int main(){
 	demand.t=21;
 	push(l,demand);
 	atende(&e,l,20);
-	printf("\n\n");
+	merge(l,0);
+	printf("\nDepois de atende()\n");
+	printList(l);
 	return 0;
 }
