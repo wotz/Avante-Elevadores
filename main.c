@@ -100,7 +100,9 @@ int main(){
 	demand.t=21;
 	push(l,demand);
 	
-	atende(&e, l, 0);
-	
+	Node* node = createNode();
+	node = l->begin;
+	atende(&e, l, node);
+	printList(l);
 	return 0;
 }

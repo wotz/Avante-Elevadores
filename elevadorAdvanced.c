@@ -68,28 +68,28 @@ void atendeMiolo(Elevador* e,Lista* l, Lista* all, int destino, int opc){
 	}
 }
 
-void atende(Elevador* e, Lista* l,int destino){
-	int opc;
-	if(e->posicao <= destino)
-		opc = 1;
-	else
-		opc = 0;
-	//Faz de @all uma cópia de @l
-	Lista* all = createList();
-	all = copyList(l);
+void atende(Elevador* e, Lista* l, Node* node){
+	int destino = node->demand.origem;	
+	for(int i = 0; i < 2; i++){
+		int opc;
+		if(e->posicao <= destino)
+			opc = 1;
+		else
+			opc = 0;
+		//Faz de @all uma cópia de @l
+		Lista* all = createList();
+		all = copyList(l);
 	
-	//Ordena a @all pela origem
-	merge(all,0);
+		//Ordena a @all pela origem
+		merge(all,0);
 
-	//Gera lista com solicitações passíveis de serem atendidas agora
-	if(opc == 1 )
-		all = generate(all,e->posicao, destino);
-	else if(opc == 0)
-		all = generateDown(all, e->posicao, destino);
+		//Gera lista com solicitações passíveis de serem atendidas agora
+		if(opc == 1 )
+			all = generate(all,e->posicao, destino);
+		else if(opc == 0)
+			all = generateDown(all, e->posicao, destino);
 
-	atendeMiolo(e, l, all, destino,opc);
-	printList(all);
-	printf("\n\n");
-	printList(l);
-	printStatus(e);
+		atendeMiolo(e, l, all, destino,opc);
+		destino = node->demand.destino;
+	}
 }
