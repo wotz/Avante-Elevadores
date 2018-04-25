@@ -1,9 +1,3 @@
-#include "headers/lista.h"
-#include "headers/elevador.h"
-#include "headers/elevadorAdvanced.h"
-#include <stdio.h>
-#include <stdlib.h>
-
 
 /*
 void fcfs(Elevador* e, Lista* l){

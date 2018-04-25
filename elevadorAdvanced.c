@@ -4,16 +4,8 @@
 #include "headers/merge.h"
 #include "headers/elevadorAdvanced.h"
 #include <stdlib.h>
-
-int isUp(int origem, int destino){
-	return (origem > destino);
-}
-
-int isDown(int origem, int destino){
-	return (origem<destino);
-}
-
-void andaresMiolo(Elevador* e, Lista* l, Lista* all, Node* pointer, int andar){
+#include <stdio.h>
+void middleFloor(Elevador* e, Lista* l, Lista* all, Node* pointer, int andar){
 	//Nó para colocar as solicitações de @l em atendimento
 	Node* aux = createNode();
 
@@ -57,7 +49,7 @@ void atendeMiolo(Elevador* e,Lista* l, Lista* all, int destino, int opc){
 		for(int andar = e->posicao; andar <= destino; andar++){
 
 			//Loop que verifica se temos solicitações para o andar andar
-			andaresMiolo(e, l, all, pointer, andar);
+			middleFloor(e, l, all, pointer, andar);
 			if(andar != destino)
 				subir(e);
 			pointer = all->begin;	
@@ -67,7 +59,7 @@ void atendeMiolo(Elevador* e,Lista* l, Lista* all, int destino, int opc){
 		for(int andar = e->posicao; andar >= destino; andar--){
 
 			//Loop que verifica se temos solicitações para o andar andar
-			andaresMiolo(e, l, all, pointer, andar);
+			middleFloor(e, l, all, pointer, andar);
 			if(andar != destino)
 				descer(e);
 			pointer = all->begin;	
@@ -76,8 +68,12 @@ void atendeMiolo(Elevador* e,Lista* l, Lista* all, int destino, int opc){
 	}
 }
 
-void atende(Elevador* e, Lista* l,int destino, int opc){
-	
+void atende(Elevador* e, Lista* l,int destino){
+	int opc;
+	if(e->posicao <= destino)
+		opc = 1;
+	else
+		opc = 0;
 	//Faz de @all uma cópia de @l
 	Lista* all = createList();
 	all = copyList(l);
@@ -91,10 +87,9 @@ void atende(Elevador* e, Lista* l,int destino, int opc){
 	else if(opc == 0)
 		all = generateDown(all, e->posicao, destino);
 
-	atendeMiolo(e, l, all, destino, opc);
+	atendeMiolo(e, l, all, destino,opc);
 	printList(all);
 	printf("\n\n");
 	printList(l);
 	printStatus(e);
 }
-
