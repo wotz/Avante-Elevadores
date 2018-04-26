@@ -3,9 +3,8 @@
 #include "headers/lista.h"
 #include "headers/merge.h"
 #include "headers/elevador.h"
-#include "headers/listaAdvanced.h"
-#include "headers/elevadorAdvanced.h"
-#include "headers/controle.h"
+#include "headers/gerador.h"
+#include "headers/atende.h"
 
 int main(){
 	Lista* l = createList();
@@ -94,15 +93,6 @@ int main(){
 	demand.t=21;
 	push(l,demand);
 
-	demand.id=14;
-	demand.origem=2;
-	demand.destino=1;
-	demand.t=21;
-	push(l,demand);
-	
-	Node* node = createNode();
-	node = l->begin;
-	atende(&e, l, node);
-	printList(l);
+	go(&e, l, 18);
 	return 0;
 }

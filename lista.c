@@ -23,7 +23,6 @@ int isEmpety(Lista* l){
 //Função que insere célula no fim da "Fila"
 void push(Lista* l, Demand demand){
 	Node* node = (Node*)malloc(sizeof(Node));
-	demand.status = 0;//Toda vez que for dado um push a demanda é pendente
 	node->demand = demand;
 	node->next = NULL;
 	if(isEmpety(l)){
@@ -41,7 +40,7 @@ void push(Lista* l, Demand demand){
 
 //Função pop boladona
 //Ressalto que o caralho da lista tem que tá ordenada pela id
-int pop(Lista* l,int id){
+void pop(Lista* l,int id){
 	//Nó auxiliar para percorrer a lista, começa no begin
 	Node* aux = createNode();
 	aux = l->begin;
@@ -123,31 +122,6 @@ Node* find(Lista* l,int id){
 	return NULL;
 }
 
-/*
-//Retorna o número de solicitações no andar andar
-int findFloor(Lista* l,int andar, char opc){
-	Node* node = l->begin;
-	int i, busca, n = 0;
-	if(opc == 'o')
-		busca = node->demand.origem;
-	else
-		busca = node->demand.destino;
-	for(i = 1; i <= l->size;i++){
-		if(andar == busca)
-			n++;
-		if(i != l->size){
-			node = node->next;
-			if(opc == 'o')
-				busca = node->demand.origem;
-			else 
-				busca = node->demand.destino;
-		}
-	}
-	return n;
-}
-
-*/
-
 //Retorna uma nova lista que é cópia da recebida como parâmetro
 Lista* copyList(Lista* l){
 	Lista* new_l = createList();
@@ -169,6 +143,7 @@ Node* createNode(){
 	return node;
 }
 
+//Imprime um nó
 void printNode(Node* node){
 	if(node != NULL)
 		printf("Id: %d Origem: %d Destino: %d Status: %d\n", node->demand.id, node->demand.origem,

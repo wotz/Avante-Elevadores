@@ -1,5 +1,6 @@
 #include "headers/lista.h"
-#include "headers/listaAdvanced.h"
+#include "headers/gerador.h"
+#include "headers/merge.h"
 #include <stdio.h>
 #include <stdlib.h>
 /*
@@ -26,7 +27,8 @@ Lista* generate(Lista* l, int posicao, int destino){
 	destiny =	pointer->demand.destino;
 
 	while(pointer != NULL){
-		if(origin >= posicao && destiny <= destino){
+		if(origin >= posicao && origin <= destino){
+
 			push(now,pointer->demand);
 		}
 		pointer = pointer->next;
@@ -55,7 +57,7 @@ Lista* generateDown(Lista* l, int posicao, int destino){
 	destiny =	pointer->demand.destino;
 
 	while(pointer != NULL){
-		if(origin <= posicao && destiny >= destino){
+		if(origin <= posicao){
 			push(now,pointer->demand);
 		}
 		pointer = pointer->next;
@@ -67,13 +69,41 @@ Lista* generateDown(Lista* l, int posicao, int destino){
 	return now;
 }
 
-void popDone(Lista* l){
+/*
+	Atualiza Lista l com as operações realizadas em all
+	Atualiza all removendo as solicitações já atendidas
+*/
+void crossing(Lista* l, Lista* all){
+	//Ordena a lista de comparação pela id
+	merge(all,2);
+
+	//Nó auxiliar para percorrer all
 	Node* pointer = createNode();
-	pointer = l->begin;
+	pointer = all->begin;
+
+	//Nó auxliar para percorrer l
+	Node* aux = createNode();
+	aux = l->begin;
+	
+	//Looping externo para percorrer all
 	while(pointer != NULL){
-		if(pointer != NULL && pointer->demand.status == 2){
-			pop(l, pointer->demand.id);
+
+		//Faz o ponteiro de l apontar para elemento de mesma id de all
+		while(aux->demand.id != pointer->demand.id)
+			aux = aux->next;
+
+		//Atualiza o status de aux
+		if(pointer->demand.status== 1)
+			aux->demand.status = 1;
+
+		//Remove da lista l e da lista all solicitações já atendidas
+		else if(pointer->demand.status == 2){
+
+			pop(l,pointer->demand.id);
+			pop(all, pointer->demand.id);
 		}
+
+		//Ponteiro da all vai pro próximo nó
 		pointer = pointer->next;
 	}
 }

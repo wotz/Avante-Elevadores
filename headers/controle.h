@@ -1,1 +1,0 @@
-void fcfs(Elevador* e, Lista* l);
