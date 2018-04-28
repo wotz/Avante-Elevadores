@@ -18,27 +18,39 @@ void fcfs(Elevador* e, Lista* l){
 
 
 void sjf(Elevador* e, Lista* l){
+	Lista *aux = createList();
+	aux = copyList(l);
+	Node* temp = createNode();
 	int destino;
-	while(!isEmpety(l)){
-		calculaDistancia(e, l);//pensar em quando exatamente voltar a calcular a distancia[
-		printList(l);
-		destino = shortDemand(e,l);
-		printf("estou na sjf %d\n", destino);
-		go(e, l, destino);
+	while(!isEmpety(aux)){
+		calculaDistancia(e, aux);//pensar em quando exatamente voltar a calcular a distancia[
+		temp = shortDemand(e,aux);
+		destino = temp->demand.origem;
+		printNode(temp);
+		if(destino == e->posicao || temp->demand.status == 1)
+			destino = temp->demand.destino;
+		int c = getchar();
+		
+		printf("aux: \n");
+		printList(aux);
+		go(e, aux, destino);
+		printf("aux1: \n");
+		printList(aux);
 	}
 	
 	//repetir várias vezes
 }
 
-
-
-
 void calculaDistancia(Elevador* e, Lista* l) {
 	Node* pointer = l->begin;
 	while (pointer != NULL) {
 		
-		if (pointer->demand.status == 0)
-			pointer->demand.d = abs(pointer->demand.origem - e->posicao);
+		if (pointer->demand.status == 0){
+			if(e->posicao == pointer->demand.origem)
+				pointer->demand.d = abs(pointer->demand.destino - e->posicao);
+			else
+				pointer->demand.d = abs(pointer->demand.origem - e->posicao);
+		}
 		
 		else if (pointer->demand.status == 1)
 			pointer->demand.d = abs(pointer->demand.destino - e->posicao);
@@ -47,16 +59,15 @@ void calculaDistancia(Elevador* e, Lista* l) {
 	}
 }
 
-int shortDemand(Elevador *e, Lista *l) {;
+Node* shortDemand(Elevador *e, Lista *l) {;
 
 
-	Node *node = l->begin;
-	
+	Node* node = l->begin;
+	Node* aux = createNode();
 
 	int shortestDist = node->demand.d;//menor distancia começa como a do inicia da lista
 	int destino;// = node->demand.distancia;//destino recebe a 
 	
-
 	if (node->demand.status == 0 && node->demand.tempo >= e->t)
 		destino = node->demand.origem;
 	
@@ -66,25 +77,22 @@ int shortDemand(Elevador *e, Lista *l) {;
 
 	node = l->begin->next;
 	while (node != NULL) {
-		if (node->demand.d < shortestDist) {//pensar no que ocorre quando a distancia é igual.
+		if (node->demand.d < shortestDist){
 			shortestDist = node->demand.d;
-
 
 			if (node->demand.status == 0){
 				destino = node->demand.origem;
-			
+
 			}
-	
 			else if (node->demand.status == 1){
 			
 				destino = node->demand.destino;
 				
 			}
+			aux = node;
 		}
 		node = node->next;
-		int c = getchar();
 
 	}
-	return destino;
+	return aux;
 }
-

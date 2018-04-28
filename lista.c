@@ -23,7 +23,6 @@ int isEmpety(Lista* l){
 //Função que insere célula no fim da "Fila"
 void push(Lista* l, Demand demand){
 	Node* node = (Node*)malloc(sizeof(Node));
-	printf("Distancia push: %d\n", demand.d);
 	node->demand = demand;
 	node->next = NULL;
 	if(isEmpety(l)){
