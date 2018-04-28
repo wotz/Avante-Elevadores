@@ -1,8 +1,9 @@
 all: 
-	gcc -c lista.c -o lista.o
-	gcc -c elevador.c -o elevador.o
-	gcc -c merge.c -o merge.o
-	gcc -c main.c -o main.o
-	gcc -c gerador.c -o gerador.o
-	gcc -c atende.c -o atende.o
-	gcc lista.o elevador.o merge.o gerador.o atende.o main.o -o exit
+	gcc -c lista.c -o bin/lista.o
+	gcc -c elevador.c -o bin/elevador.o
+	gcc -c merge.c -o bin/merge.o
+	gcc -c main.c -o bin/main.o
+	gcc -c gerador.c -o bin/gerador.o
+	gcc -c atende.c -o bin/atende.o
+	gcc -c data.c -o bin/data.o
+	gcc bin/lista.o bin/elevador.o bin/merge.o bin/gerador.o bin/atende.o bin/data.o bin/main.o -o exit

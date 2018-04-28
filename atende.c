@@ -113,3 +113,4 @@ void go(Elevador* e, Lista* l, int andar){
 	printList(all);
 	
 }
+
