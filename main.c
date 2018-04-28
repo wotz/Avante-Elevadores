@@ -7,12 +7,14 @@
 #include "headers/gerador.h"
 #include "headers/atende.h"
 #include "headers/data.h"
+#include "headers/smart.h"
+
 
 int main(int argc, char *argv[]){
 	Dados dataInput;
 	Elevador e;
-	Lista *l;
-	if (strcmp(argv[2], "fcfs") && strcmp(argv[2], "sjf")) {
+	Lista* l;
+	if (strcmp(argv[1], "fcfs") && strcmp(argv[1], "sjf")) {
 		printf("Nome da estrategia de escalonamento invalido. Escolha 'fcfs' ou 'sjf'\n");
 		return 0;
 	}
@@ -20,14 +22,17 @@ int main(int argc, char *argv[]){
 	
 	e = dataInput.elevador;
 	l = dataInput.evento;
+
 	printf("\nLista de Solicitações:\n");
 	printList(l);
+	printf("\n\n");
 
-	if (!strcmp(argv[2], "fcfs")) {
-
+	if (!strcmp(argv[1], "fcfs")) {
+		fcfs(&e, l);
 	}
-	else if (!strcmp(argv[2], "sjf")) {
-
+	else if (!strcmp(argv[1], "sjf")) {
+		sjf(&e, l);
 	}
+
 	return 0;
 }

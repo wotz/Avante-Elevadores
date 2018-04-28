@@ -7,6 +7,8 @@
 
 Dados recebedados(int argc, char **argv)
 {
+	char stringe[] = "data/elevador.txt";
+	char stringev[] = "data/eventos.txt";
 	Dados conjuntoentrada;
 	int andarMin, andarMax, capacidade;
 	int tempo, origem, destino, id = 0;
@@ -18,13 +20,9 @@ Dados recebedados(int argc, char **argv)
 	Lista* evento;
 	Demand demand;
 
-	printf("Quantidade de parametros: %d\n", argc);
-	printf("Nome do programa: %s\n", argv[0]);
-	printf("Arquivo do ambiente do elevador: %s\n", argv[1]);
-	printf("Estrategia de alocacao: %s\n", argv[2]);
-	printf("Arquivo de eventos: %s\n", argv[3]);
 	/**************************************************************************************************/
-	arquivoElevador = fopen(argv[1], "r");
+	//arquivoElevador = fopen(argv[1], "r");
+	arquivoElevador = fopen(stringe, "r");
 	if (arquivoElevador == NULL)
 		printf("ERRO: Nao foi possivel abrir o arquivo do ambiente de elevador\n");
 	else {
@@ -37,7 +35,8 @@ Dados recebedados(int argc, char **argv)
 	
 	evento = createList();
 	
-	arquivoEventos = fopen(argv[3], "r");
+	//arquivoEventos = fopen(argv[3], "r");
+	arquivoEventos = fopen(stringev, "r");
 	if (arquivoEventos == NULL)
 		printf("ERRO: Nao foi possivel abrir o arquivo que descreve os eventos\n");
 	else {
@@ -48,8 +47,8 @@ Dados recebedados(int argc, char **argv)
 				demand.id = id;
 				demand.origem = origem;
 				demand.destino = destino;
-				demand.t = tempo;
-				demand.distancia = 0;
+				demand.tempo = tempo;
+				demand.d = 0;
 				push(evento, demand);	
 			}
 			

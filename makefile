@@ -6,4 +6,5 @@ all:
 	gcc -c gerador.c -o bin/gerador.o
 	gcc -c atende.c -o bin/atende.o
 	gcc -c data.c -o bin/data.o
-	gcc bin/lista.o bin/elevador.o bin/merge.o bin/gerador.o bin/atende.o bin/data.o bin/main.o -o exit
+	gcc -c smart.c -o bin/smart.o
+	gcc bin/lista.o bin/elevador.o bin/merge.o bin/gerador.o bin/atende.o bin/data.o bin/main.o bin/smart.o -o exit

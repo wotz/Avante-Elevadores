@@ -55,9 +55,9 @@ Lista* generateDown(Lista* l, int posicao, int destino){
 	origin  = 	pointer->demand.origem;
 	int destiny;
 	destiny =	pointer->demand.destino;
-
 	while(pointer != NULL){
-		if(origin <= posicao){
+	
+		if(origin <= posicao && destiny >= destino || pointer->demand.status == 1 && destiny <= destino){
 			push(now,pointer->demand);
 		}
 		pointer = pointer->next;

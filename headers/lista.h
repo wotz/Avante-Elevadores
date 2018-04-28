@@ -3,10 +3,10 @@ typedef struct solicitacao{
 	int origem;
 	int destino;
 	int id;
-	int t;
+	int tempo;
 	int tipo;//embarque ou desembarque
 	int status;//pensei em 0: esperando, 1:em viagem, 2: atendido
-	int distancia;
+	int d;
 }Demand;
 
 typedef struct node{

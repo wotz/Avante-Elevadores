@@ -43,38 +43,33 @@ void funnyFloor(Elevador* e, Lista* l, Lista* all, int andar){
 
 			//Partezinha da animação
 			printStatus(e);
-			
-
+			int c = getchar();
 			if(i == e->posicao)
 				boringFloor(e, l, all);
 			subir(e);
 			boringFloor(e, l, all);
-			
-			//Partezinha da animação
-			printStatus(e);
-			int c = getchar();
 		}
 	}
 	else{
 		for(int i = e->posicao; i > andar; i--){
 			//Partezinha da animação
 			printStatus(e);
-			
-			
+			int c = getchar();
 			if(i == e->posicao)
 				boringFloor(e, l, all);
 			descer(e);
 			boringFloor(e, l, all);
-			
-			//Partezinha da animação
-			printStatus(e);
-			int c = getchar();
+		
 		}
 	}
+	printStatus(e);
+	int c = getchar();
 }
 
 
 void go(Elevador* e, Lista* l, int andar){
+	if(e->posicao == andar)
+		return;
 	//Faz de all uma cópia de l	
 	Lista* all = createList();
 	all = copyList(l);
@@ -88,29 +83,21 @@ void go(Elevador* e, Lista* l, int andar){
 	if(andar > e->posicao)
 		all = generate(all, e->posicao, andar);
 
-	else if(andar < e->posicao)		
+	else if(andar < e->posicao){
 		all = generateDown(all, e->posicao, andar);
+	}
 	
-	
-	printf("L antes de go:\n");
-	printList(l);
-	printf("All antes de funnyFloor\n");
-	printList(all);
-	int c = getchar();
-
-
 	funnyFloor(e, l, all, andar);
 
-	
-	printf("L depois de funnyFloor:\n");
-	printList(l);
-	printf("All antes de crossing:\n");
-	printList(all);
 	crossing(l,all);
-	printf("L depois de crossing:\n");
-	printList(l);
-	printf("All depois de crossing:\n");
-	printList(all);
-	
+
 }
 
+void atende(Elevador* e, Lista* l, Node* node){
+
+	if(node->demand.status != 1)
+		go(e, l, node->demand.origem);
+	
+	go(e, l, node->demand.destino);
+	
+}
