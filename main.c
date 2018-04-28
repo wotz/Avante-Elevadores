@@ -93,6 +93,6 @@ int main(){
 	demand.t=21;
 	push(l,demand);
 
-	go(&e, l, 18);
+	go(&e, l, 0);
 	return 0;
 }

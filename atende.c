@@ -15,9 +15,11 @@ void boringFloor(Elevador* e, Lista* l, Lista* all){
 	while(pointer != NULL){
 			if(pointer->demand.origem == e->posicao && pointer->demand.status == 0){
 				
-				if(e->capacidade - e->lotacao > 0)
+				if(e->capacidade - e->lotacao > 0){
 					embarca(e);
-				pointer->demand.status = 1;
+					pointer->demand.status = 1;
+				}
+				
 			}
 			else if(pointer->demand.destino == e->posicao && pointer->demand.status == 1){
 				pointer->demand.status = 2;
@@ -32,8 +34,10 @@ void funnyFloor(Elevador* e, Lista* l, Lista* all, int andar){
 	int opc;
 	if(andar < e->posicao)
 		opc = 0;
-	else 
+
+	else
 		opc = 1;
+
 	if(opc){
 		for(int i = e->posicao; i < andar; i++){
 
@@ -83,9 +87,10 @@ void go(Elevador* e, Lista* l, int andar){
 	*/
 	if(andar > e->posicao)
 		all = generate(all, e->posicao, andar);
-	
-	else if(andar < e->posicao)
+
+	else if(andar < e->posicao)		
 		all = generateDown(all, e->posicao, andar);
+	
 	
 	printf("L antes de go:\n");
 	printList(l);
@@ -94,7 +99,7 @@ void go(Elevador* e, Lista* l, int andar){
 	int c = getchar();
 
 
-	funnyFloor(e, l, all, 18);
+	funnyFloor(e, l, all, andar);
 
 	
 	printf("L depois de funnyFloor:\n");
