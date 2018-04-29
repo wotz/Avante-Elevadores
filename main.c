@@ -23,10 +23,6 @@ int main(int argc, char *argv[]){
 	e = dataInput.elevador;
 	l = dataInput.evento;
 
-	printf("\nLista de Solicitações:\n");
-	printList(l);
-	printf("\n\n");
-
 	if (!strcmp(argv[1], "fcfs")) {
 		fcfs(&e, l);
 	}

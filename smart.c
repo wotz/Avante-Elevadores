@@ -4,6 +4,7 @@
 #include "headers/lista.h"
 #include "headers/elevador.h"
 #include "headers/atende.h"
+#include "headers/merge.h"
 #include "headers/smart.h"
 
 
@@ -26,16 +27,13 @@ void sjf(Elevador* e, Lista* l){
 		calculaDistancia(e, aux);//pensar em quando exatamente voltar a calcular a distancia[
 		temp = shortDemand(e,aux);
 		destino = temp->demand.origem;
-		printNode(temp);
-		if(destino == e->posicao || temp->demand.status == 1)
+		if(destino == e->posicao || temp->demand.status == 1){
 			destino = temp->demand.destino;
-		int c = getchar();
-		
-		printf("aux: \n");
+		}
 		printList(aux);
 		go(e, aux, destino);
-		printf("aux1: \n");
 		printList(aux);
+		int c = getchar();
 	}
 	
 	//repetir várias vezes

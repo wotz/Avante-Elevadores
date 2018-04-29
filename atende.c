@@ -22,6 +22,7 @@ void boringFloor(Elevador* e, Lista* l, Lista* all){
 				
 			}
 			else if(pointer->demand.destino == e->posicao && pointer->demand.status == 1){
+				
 				pointer->demand.status = 2;
 				desembarca(e);
 			}
@@ -39,31 +40,38 @@ void funnyFloor(Elevador* e, Lista* l, Lista* all, int andar){
 		opc = 1;
 
 	if(opc){
-		for(int i = e->posicao; i < andar; i++){
+		for(int i = e->posicao; i <= andar; i++){
 
 			//Partezinha da animação
 			printStatus(e);
 			int c = getchar();
 			if(i == e->posicao)
 				boringFloor(e, l, all);
-			subir(e);
+			if(i != andar)
+				subir(e);
 			boringFloor(e, l, all);
 		}
 	}
 	else{
-		for(int i = e->posicao; i > andar; i--){
+		for(int i = e->posicao; i >= andar; i--){
 			//Partezinha da animação
-			printStatus(e);
+			if(i != andar)
+				printStatus(e);
 			int c = getchar();
 			if(i == e->posicao)
 				boringFloor(e, l, all);
-			descer(e);
+				
+			if(i != andar)
+				descer(e);
+			
+			
 			boringFloor(e, l, all);
 		
 		}
+		
 	}
 	printStatus(e);
-	int c = getchar();
+	boringFloor(e, l, all);
 }
 
 

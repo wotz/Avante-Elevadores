@@ -50,6 +50,10 @@ Node* sortedMerge(Node* a,Node* b, int opt){
 		x = a->demand.destino;
    		y = b->demand.destino;
    	}
+    else if(opt == 3){
+        x = a->demand.d;
+        y = b->demand.d;
+    }
     else{
         x = a->demand.id;
    		y = b->demand.id;
