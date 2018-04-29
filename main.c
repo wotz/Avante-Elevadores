@@ -25,14 +25,12 @@ int main(int argc, char *argv[]){
 
 	if (!strcmp(argv[1], "fcfs")) {
 		fcfs(&e, l);
+		printStatus(&e);
+
 	}
 	else if (!strcmp(argv[1], "sjf")) {
-		Node* node = createNode();
-		node = NULL;
-		calculaDistancia(&e, l);
-		printList(l);
-		node = shortest(&e, l);
-		printNode(node);
+		sjf(&e, l);
+		printStatus(&e);
 	}
 
 	return 0;

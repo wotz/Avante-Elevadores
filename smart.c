@@ -24,18 +24,19 @@ void sjf(Elevador* e, Lista* l){
 	Node* temp = createNode();
 	int destino;
 	while(!isEmpety(aux)){
-
+	
 		calculaDistancia(e, aux);
+		
 		temp = shortest(e,aux);
-
+		
 		destino = temp->demand.origem;
 		
 		if(destino == e->posicao || temp->demand.status == 1)
 			destino = temp->demand.destino;
 		
-		printList(aux);
+		
 		go(e, aux, destino);
-		printList(aux);
+		
 		int c = getchar();
 	}
 	

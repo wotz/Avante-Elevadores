@@ -6,7 +6,6 @@
 #include <stdlib.h>
 #include <stdio.h>
 
-
 //Andar chato :(
 void boringFloor(Elevador* e, Lista* l, Lista* all){
 	Node* pointer = createNode();
@@ -72,25 +71,22 @@ void funnyFloor(Elevador* e, Lista* l, Lista* all, int andar){
 	boringFloor(e, l, all);
 }
 
-
 void go(Elevador* e, Lista* l, int andar){
-	printf("Va para %d\n",andar);
+	
 	Node* aux = createNode();
-	int Evazio = 0;
 	aux = l->begin;
+	
 	if(e->posicao == andar){
+		
 		while (aux != NULL){
 
 			if(aux->demand.origem == andar && aux->demand.status == 0){
-
 				if(e->capacidade - e->lotacao){
-
 					aux->demand.status = 1;					
 					embarca(e);
 				}
 			}
 			else if(aux->demand.destino == andar && aux->demand.status == 1){
-				
 				pop(l,aux->demand.id);
 				desembarca(e);	
 			}
@@ -98,13 +94,13 @@ void go(Elevador* e, Lista* l, int andar){
 		}
 		return;
 	}
+	
 	//Faz de all uma cópia de l	
 	Lista* all = createList();
 	all = copyList(l);
-
 	//Ordena all pela origem
 	merge(all,0);
-
+	
 	/*
 		Gera Lista com solicitações acima ou abaixo do elevador, dependendo do caso
 	*/
@@ -116,7 +112,7 @@ void go(Elevador* e, Lista* l, int andar){
 	}
 	
 	funnyFloor(e, l, all, andar);
-
+	
 	crossing(l,all);
 
 }

@@ -15,28 +15,35 @@ Lista* generate(Lista* l, int posicao, int destino){
 	//Nova lista para inserção das demandas passíveis de ser atendidas
 	//Salva os atendimentos intermediarios
 	Lista* now = createList();
-	
 	//Ponteiro auxiliar para percorrer lista começando do begin
 	Node* pointer = createNode();
-	pointer 	  = l->begin;
+	pointer = l->begin;
 
 	//Variáveis auxiliares para comparações no for
 	int origin;
 	origin  = 	pointer->demand.origem;
 	int destiny;
 	destiny =	pointer->demand.destino;
-
 	while(pointer != NULL){
+		
 		if(origin >= posicao && origin <= destino){
-
 			push(now,pointer->demand);
+		
 		}
 		pointer = pointer->next;
 		if(pointer != NULL){
 			origin  = pointer->demand.origem;
 			destiny = pointer->demand.destino; 
 		}
+			
 	}
+	if(isEmpety(now))
+		return now;
+	merge(now, 2);
+	now->first = now->begin->demand.id;	
+	merge(now, 0);
+
+			
 	return now;
 }
 
@@ -66,6 +73,11 @@ Lista* generateDown(Lista* l, int posicao, int destino){
 			destiny = pointer->demand.destino; 
 		}
 	}
+	merge(now, 2);
+	now->first = now->begin->demand.id;
+
+	merge(now, 0);
+	return now;
 	return now;
 }
 
@@ -74,6 +86,7 @@ Lista* generateDown(Lista* l, int posicao, int destino){
 	Atualiza all removendo as solicitações já atendidas
 */
 void crossing(Lista* l, Lista* all){
+	
 	//Ordena a lista de comparação pela id
 	merge(all,2);
 
@@ -93,17 +106,19 @@ void crossing(Lista* l, Lista* all){
 			aux = aux->next;
 
 		//Atualiza o status de aux
-		if(pointer->demand.status== 1)
+		if(pointer->demand.status== 1){
 			aux->demand.status = 1;
+		}
 
 		//Remove da lista l e da lista all solicitações já atendidas
 		else if(pointer->demand.status == 2){
-
 			pop(l,pointer->demand.id);
 			pop(all, pointer->demand.id);
+
 		}
 
 		//Ponteiro da all vai pro próximo nó
 		pointer = pointer->next;
 	}
+
 }

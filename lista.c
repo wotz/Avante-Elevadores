@@ -38,7 +38,7 @@ void push(Lista* l, Demand demand){
 }
 
 
-//Função pop boladona
+//Função pop  boladona
 //Ressalto que o caralho da lista tem que tá ordenada pela id
 void pop(Lista* l,int id){
 	//Nó auxiliar para percorrer a lista, começa no begin
@@ -50,8 +50,9 @@ void pop(Lista* l,int id){
 	toPop = find(l,id);
 
 	//Remoção inválida: fecha na bruteza o programa
-	if(toPop == NULL)
+	if(toPop == NULL){
 		exit(1);
+	}
 
 	//Se o tamanho da lista for 1 apaga a lista inteira
 	else if(l->size == 1){
@@ -62,22 +63,23 @@ void pop(Lista* l,int id){
 
 	//Remove do fim quando o tamanho da lista é maior que 2
 	else if(l->head->demand.id == id && l->size >= 2){
+
 		while(aux->next != toPop)
 			aux = aux->next;
 		aux->next = toPop->next;
 		l->head = aux;
 		free(toPop);
+
 	}
 
 	//Remove do começão quando o tamnho da lista é maior que 2
 	else if(id == l->first && l->size >= 2){
 		l->begin = l->begin->next;
 		l->first = l->begin->demand.id;	
-		free(aux);	
+		free(aux);
+
 	}
-
-
-	//Remove do miolo quando o tamnho da lista
+	//Remove do miolo quando o tamnho da lista é maior que 2
 	else if(id > l->first && l->size > 2){
 		while(aux->next != toPop)//Guarda o nó anterior ao nó desejado
 			aux = aux->next;
@@ -89,9 +91,8 @@ void pop(Lista* l,int id){
 		l->head = l->begin;
 		free(toPop);
 	}
-
 	l->size--;//Diminui o tamnho da lista
-	
+
 }
 
 
