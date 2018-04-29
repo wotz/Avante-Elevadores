@@ -13,6 +13,7 @@ void boringFloor(Elevador* e, Lista* l, Lista* all){
 	pointer = all->begin;
 
 	while(pointer != NULL){
+			//printf("destino (%d) == posicao (%d) && status (%d) == 1\n",pointer->demand.destino, e->posicao, pointer->demand.status);
 			if(pointer->demand.origem == e->posicao && pointer->demand.status == 0){
 				
 				if(e->capacidade - e->lotacao > 0){
@@ -38,10 +39,8 @@ void funnyFloor(Elevador* e, Lista* l, Lista* all, int andar){
 
 	else
 		opc = 1;
-
 	if(opc){
 		for(int i = e->posicao; i <= andar; i++){
-
 			//Partezinha da animação
 			printStatus(e);
 			int c = getchar();
@@ -70,14 +69,35 @@ void funnyFloor(Elevador* e, Lista* l, Lista* all, int andar){
 		}
 		
 	}
-	printStatus(e);
 	boringFloor(e, l, all);
 }
 
 
 void go(Elevador* e, Lista* l, int andar){
-	if(e->posicao == andar)
+	printf("Va para %d\n",andar);
+	Node* aux = createNode();
+	int Evazio = 0;
+	aux = l->begin;
+	if(e->posicao == andar){
+		while (aux != NULL){
+
+			if(aux->demand.origem == andar && aux->demand.status == 0){
+
+				if(e->capacidade - e->lotacao){
+
+					aux->demand.status = 1;					
+					embarca(e);
+				}
+			}
+			else if(aux->demand.destino == andar && aux->demand.status == 1){
+				
+				pop(l,aux->demand.id);
+				desembarca(e);	
+			}
+			aux = aux->next;
+		}
 		return;
+	}
 	//Faz de all uma cópia de l	
 	Lista* all = createList();
 	all = copyList(l);

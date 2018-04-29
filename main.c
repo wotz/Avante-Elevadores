@@ -27,7 +27,12 @@ int main(int argc, char *argv[]){
 		fcfs(&e, l);
 	}
 	else if (!strcmp(argv[1], "sjf")) {
-		sjf(&e, l);
+		Node* node = createNode();
+		node = NULL;
+		calculaDistancia(&e, l);
+		printList(l);
+		node = shortest(&e, l);
+		printNode(node);
 	}
 
 	return 0;

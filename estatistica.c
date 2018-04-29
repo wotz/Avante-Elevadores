@@ -1,0 +1,7 @@
+float calculaMedia (){
+
+}
+
+float calculaDP (){
+
+}
