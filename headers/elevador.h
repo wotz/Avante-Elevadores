@@ -6,7 +6,8 @@ typedef struct elevador{
 	int lotacao;
 	int posicao;
 	int sentido;
-	int t;
+	int tempo;
+	int operacao;
 }Elevador;
 
 

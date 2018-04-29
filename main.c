@@ -14,7 +14,11 @@ int main(int argc, char *argv[]){
 	Dados dataInput;
 	Elevador e;
 	Lista* l;
-	if (strcmp(argv[1], "fcfs") && strcmp(argv[1], "sjf")) {
+	if (argc <= 1){
+		printf("Há menos parâmetros que o necessário. Digite o nome do progama (./""nome_do_programa"")\nseguido do nome da estratégia de escalonamento (fcfs ou sjf).\n");
+		return 0;
+	}
+	else if (strcmp(argv[1], "fcfs") && strcmp(argv[1], "sjf")) {
 		printf("Nome da estrategia de escalonamento invalido. Escolha 'fcfs' ou 'sjf'\n");
 		return 0;
 	}
@@ -22,16 +26,11 @@ int main(int argc, char *argv[]){
 	
 	e = dataInput.elevador;
 	l = dataInput.evento;
-
-	if (!strcmp(argv[1], "fcfs")) {
-		fcfs(&e, l);
-		printStatus(&e);
-
-	}
-	else if (!strcmp(argv[1], "sjf")) {
+	printList(l);
+	if (!strcmp(argv[1], "fcfs")) 
+		fcfs(&e,l);
+	else if (!strcmp(argv[1], "sjf"))
 		sjf(&e, l);
-		printStatus(&e);
-	}
 
 	return 0;
 }

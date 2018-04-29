@@ -10,6 +10,8 @@ Elevador createElevador(int min, int max, int c){
 	e.andarMin = min;
 	e.andarMax = max;
 	e.capacidade = c;
+	e.tempo = 0;
+	e.operacao = 0;
 	e.lotacao=0;
 	e.posicao=7;
 	return e;
@@ -18,8 +20,12 @@ Elevador createElevador(int min, int max, int c){
 
 //Sobe um andar
 int subir(Elevador *e){
-	if(e->posicao < e->andarMax)
+	if(e->posicao < e->andarMax){
+		//printStatus(e);
+		e->operacao = 1;
+		e->tempo++;
 		e->posicao++;
+	}
 	else
 		exit(1);
 }
@@ -27,8 +33,12 @@ int subir(Elevador *e){
 
 //Desce um andar
 int descer(Elevador *e){
-	if(e->posicao > e->andarMin)
+	if(e->posicao > e->andarMin){
+		//printStatus(e);
+		e->operacao = 1;
+		e->tempo++;
 		e->posicao--;
+	}
 	else
 		exit(1);
 }
@@ -67,6 +77,7 @@ void printStatus (Elevador *e){
 	printf("|	Andar Máx: %dº		    |\n",e->andarMax);
 	printf("|	Capacidade Máx: %d 	    |\n",e->capacidade);
 	printf("|	Lotacao atual: %d 	    |\n",e->lotacao);
+	printf("|       Tempo atual: %d              |\n",e->tempo);
 	printf("-------------------------------------\n");
 }
 

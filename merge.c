@@ -54,6 +54,10 @@ Node* sortedMerge(Node* a,Node* b, int opt){
         x = a->demand.d;
         y = b->demand.d;
     }
+    else if(opt == 4){
+        x = a->demand.tempo;
+        y = b->demand.tempo;
+    }
     else{
         x = a->demand.id;
    		y = b->demand.id;

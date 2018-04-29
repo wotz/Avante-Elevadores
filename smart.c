@@ -9,10 +9,18 @@
 
 
 void fcfs(Elevador* e, Lista* l){
+	l = generateTime(l);
+	printf("\n\n");
+	printList(l);
 	Node* node = createNode();
 	node = l->begin;
+	e->operacao = 0;
 	while(!isEmpety(l)){
-		atende(e, l, node);
+		if(node->demand.tempo <= e->tempo){
+			atende(e, l, node);	
+		}
+		if(e->operacao == 0)
+			e->tempo ++;
 		node = l->begin;
 	}
 }
@@ -34,10 +42,11 @@ void sjf(Elevador* e, Lista* l){
 		if(destino == e->posicao || temp->demand.status == 1)
 			destino = temp->demand.destino;
 		
-		
 		go(e, aux, destino);
+		if(!e->operacao)
+			e->tempo++;
 		
-		int c = getchar();
+
 	}
 	
 	//repetir várias vezes
@@ -70,7 +79,7 @@ Node* shortest(Elevador* e, Lista* l){
 	node = l->begin;
 
 	while(node != NULL){
-		if(aux->demand.d > node->demand.d){
+		if(aux->demand.d > node->demand.d && node->demand.tempo <= e->tempo){
 			aux = node;
 		}
 
@@ -78,79 +87,5 @@ Node* shortest(Elevador* e, Lista* l){
 		node = node->next;
 	}
 
-	return aux;
-}
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-Node* shortDemand(Elevador *e, Lista *l) {;
-	Node* node = l->begin;
-	Node* aux = createNode();
-
-	int shortestDist = node->demand.d;//menor distancia começa como a do inicia da lista
-	int destino;// = node->demand.distancia;//destino recebe a 
-	
-	if (node->demand.status == 0 )//&& node->demand.tempo >= e->t
-		destino = node->demand.origem;
-	else if (node->demand.status == 1 )//&& node->demand.tempo >= e->t)
-		destino = node->demand.destino;
-
-	node = l->begin->next;
-	printf("shortDemand\n");
-	while (node != NULL) {
-		if (node->demand.d < shortestDist){
-			shortestDist = node->demand.d;
-
-			if (node->demand.status == 0){
-				destino = node->demand.origem;
-
-			}
-			else if (node->demand.status == 1){
-			
-				destino = node->demand.destino;
-				
-			}
-			printf("\n\n");
-			printNode (aux);
-			printf("\n\n");
-			aux = node;
-		}
-		node = node->next;
-
-	}
-	printf("Retorna: ");
-	printNode(aux);
 	return aux;
 }

@@ -81,6 +81,26 @@ Lista* generateDown(Lista* l, int posicao, int destino){
 	return now;
 }
 
+Lista* generateTime(Lista* l){
+	int id = 1;
+	//Faz uma lista auxiliar  
+	Lista* aux = createList();
+	//Ordena aux pelo tempo
+	merge(l, 4);
+	//Ponteiro para percorrer a l
+	Node* pointer = createNode();
+	pointer = l->begin;
+	while(pointer != NULL){
+		pointer->demand.id = id;
+		push(aux, pointer->demand);
+		//anda pointer
+		pointer = pointer->next;
+		id++;
+	}
+
+	return aux;
+}
+
 /*
 	Atualiza Lista l com as operações realizadas em all
 	Atualiza all removendo as solicitações já atendidas

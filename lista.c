@@ -147,9 +147,9 @@ Node* createNode(){
 //Imprime um nó
 void printNode(Node* node){
 	if(node != NULL)
-		printf("Id: %d Origem: %d Destino: %d Status: %d Distancia: %d\n", 
+		printf("Id: %d Origem: %d Destino: %d Status: %d Distancia: %d Tempo: %d\n", 
 			node->demand.id, node->demand.origem,
-			node->demand.destino, node->demand.status, node->demand.d);
+			node->demand.destino, node->demand.status, node->demand.d, node->demand.tempo);
 	else
 		exit(1);
 }

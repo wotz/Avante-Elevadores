@@ -10,23 +10,30 @@
 void boringFloor(Elevador* e, Lista* l, Lista* all){
 	Node* pointer = createNode();
 	pointer = all->begin;
-
+	int istrue= 0;
 	while(pointer != NULL){
-			//printf("destino (%d) == posicao (%d) && status (%d) == 1\n",pointer->demand.destino, e->posicao, pointer->demand.status);
-			if(pointer->demand.origem == e->posicao && pointer->demand.status == 0){
-				
-				if(e->capacidade - e->lotacao > 0){
-					embarca(e);
-					pointer->demand.status = 1;
-				}
-				
+		if(pointer->demand.origem == e->posicao && pointer->demand.status == 0 && 
+			pointer->demand.tempo <= e->tempo){
+		
+			if(e->capacidade - e->lotacao > 0){
+				printNode(pointer);
+				istrue = 1;//embarcou
+				embarca(e);
+				pointer->demand.status = 1;
 			}
-			else if(pointer->demand.destino == e->posicao && pointer->demand.status == 1){
 				
-				pointer->demand.status = 2;
-				desembarca(e);
-			}
+		}
+		else if(pointer->demand.destino == e->posicao && pointer->demand.status == 1 && 
+			pointer->demand.tempo <= e->tempo){
+			istrue = 1;//desembarcou
+			pointer->demand.status = 2;
+			desembarca(e);
+		}
 			pointer = pointer->next;
+	}
+	if(istrue){
+		e->operacao = 1;
+		e->tempo++;
 	}
 }
 
@@ -72,23 +79,28 @@ void funnyFloor(Elevador* e, Lista* l, Lista* all, int andar){
 }
 
 void go(Elevador* e, Lista* l, int andar){
-	
 	Node* aux = createNode();
 	aux = l->begin;
 	
 	if(e->posicao == andar){
-		
 		while (aux != NULL){
 
-			if(aux->demand.origem == andar && aux->demand.status == 0){
+			if(aux->demand.origem == andar && aux->demand.status == 0 && 
+				aux->demand.tempo <= e->tempo){
 				if(e->capacidade - e->lotacao){
 					aux->demand.status = 1;					
 					embarca(e);
+					if(!e->operacao)
+						e->tempo++;
+					e->operacao = 1;
 				}
 			}
 			else if(aux->demand.destino == andar && aux->demand.status == 1){
 				pop(l,aux->demand.id);
-				desembarca(e);	
+				desembarca(e);
+				if(!e->operacao)
+					e->tempo++;	
+				e->operacao = 1;
 			}
 			aux = aux->next;
 		}
@@ -118,7 +130,6 @@ void go(Elevador* e, Lista* l, int andar){
 }
 
 void atende(Elevador* e, Lista* l, Node* node){
-
 	if(node->demand.status != 1)
 		go(e, l, node->demand.origem);
 	
