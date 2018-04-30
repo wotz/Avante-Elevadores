@@ -15,11 +15,11 @@ void boringFloor(Elevador* e, Lista* l, Lista* all, Lista* est){
 		if(pointer->demand.origem == e->posicao && pointer->demand.status == 0 && 
 			pointer->demand.tempo <= e->tempo){
 		
-			if(e->capacidade - e->lotacao > 0){
-				//printNode(pointer);
+			if(e->capacidade - e->lotacao > 0){			
 				istrue = 1;//embarcou
 				embarca(e);
 				pointer->demand.status = 1;
+				pointer->demand.tempoEspera = e->tempo - pointer->demand.tempo;
 			}
 				
 		}
@@ -27,6 +27,7 @@ void boringFloor(Elevador* e, Lista* l, Lista* all, Lista* est){
 			pointer->demand.tempo <= e->tempo){
 			istrue = 1;//desembarcou
 			pointer->demand.status = 2;
+			pointer->demand.tempoAtendimento = e->tempo - pointer->demand.tempoAtendimento;
 			desembarca(e);
 		}
 			pointer = pointer->next;
@@ -78,6 +79,7 @@ void go(Elevador* e, Lista* l, Lista* est, int andar){
 	aux = l->begin;
 	
 	if(e->posicao == andar){
+		printf("yo estoy aca\n");
 		while (aux != NULL){
 
 			if(aux->demand.origem == andar && aux->demand.status == 0 && 
@@ -120,7 +122,7 @@ void go(Elevador* e, Lista* l, Lista* est, int andar){
 	
 	funnyFloor(e, l, all, est, andar);
 	
-	crossing(l,all);
+	crossing(l,all, est);
 
 }
 

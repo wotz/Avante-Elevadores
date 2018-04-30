@@ -105,11 +105,10 @@ Lista* generateTime(Lista* l){
 	Atualiza Lista l com as operações realizadas em all
 	Atualiza all removendo as solicitações já atendidas
 */
-void crossing(Lista* l, Lista* all){
+void crossing(Lista* l, Lista* all, Lista* est){
 	
 	//Ordena a lista de comparação pela id
 	merge(all,2);
-
 	//Nó auxiliar para percorrer all
 	Node* pointer = createNode();
 	pointer = all->begin;
@@ -117,6 +116,10 @@ void crossing(Lista* l, Lista* all){
 	//Nó auxliar para percorrer l
 	Node* aux = createNode();
 	aux = l->begin;
+
+	//Nó auxliar para percorrer est
+	Node* node = createNode();
+	node = est->begin;
 	
 	//Looping externo para percorrer all
 	while(pointer != NULL){
@@ -125,6 +128,10 @@ void crossing(Lista* l, Lista* all){
 		while(aux->demand.id != pointer->demand.id)
 			aux = aux->next;
 
+		while(node->demand.id != pointer->demand.id)
+			node = node->next;
+
+		node->demand = pointer->demand;
 		//Atualiza o status de aux
 		if(pointer->demand.status== 1){
 			aux->demand.status = 1;

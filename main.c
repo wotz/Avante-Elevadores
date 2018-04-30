@@ -28,13 +28,14 @@ int main(int argc, char *argv[]){
 	e = dataInput.elevador;
 	l = dataInput.evento;
 	est = dataInput.evento;
-	printf("Lista l:\n");
+	printf("Dados Recebidos:\n");
 	printList(l);
 
 	if (!strcmp(argv[1], "fcfs")) 
 		fcfs(&e,l, est);
 	else if (!strcmp(argv[1], "sjf"))
 		sjf(&e, l, est);
-
+	printf("\nLista Final\n");
+	printList(est);
 	return 0;
 }
