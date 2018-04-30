@@ -7,7 +7,7 @@
 #include <stdio.h>
 
 //Andar chato :(
-void boringFloor(Elevador* e, Lista* l, Lista* all){
+void boringFloor(Elevador* e, Lista* l, Lista* all, Lista* est){
 	Node* pointer = createNode();
 	pointer = all->begin;
 	int istrue= 0;
@@ -16,7 +16,7 @@ void boringFloor(Elevador* e, Lista* l, Lista* all){
 			pointer->demand.tempo <= e->tempo){
 		
 			if(e->capacidade - e->lotacao > 0){
-				printNode(pointer);
+				//printNode(pointer);
 				istrue = 1;//embarcou
 				embarca(e);
 				pointer->demand.status = 1;
@@ -35,10 +35,12 @@ void boringFloor(Elevador* e, Lista* l, Lista* all){
 		e->operacao = 1;
 		e->tempo++;
 	}
+	else 
+		e->operacao = 0;
 }
 
 //Andar divertido :)
-void funnyFloor(Elevador* e, Lista* l, Lista* all, int andar){
+void funnyFloor(Elevador* e, Lista* l, Lista* all, Lista* est, int andar){
 	int opc;
 	if(andar < e->posicao)
 		opc = 0;
@@ -47,38 +49,31 @@ void funnyFloor(Elevador* e, Lista* l, Lista* all, int andar){
 		opc = 1;
 	if(opc){
 		for(int i = e->posicao; i <= andar; i++){
-			//Partezinha da animação
-			printStatus(e);
-			int c = getchar();
 			if(i == e->posicao)
-				boringFloor(e, l, all);
+				boringFloor(e, l, all, est);
 			if(i != andar)
 				subir(e);
-			boringFloor(e, l, all);
+			boringFloor(e, l, all, est);
 		}
 	}
 	else{
 		for(int i = e->posicao; i >= andar; i--){
-			//Partezinha da animação
-			if(i != andar)
-				printStatus(e);
-			int c = getchar();
 			if(i == e->posicao)
-				boringFloor(e, l, all);
+				boringFloor(e, l, all, est);
 				
 			if(i != andar)
 				descer(e);
 			
 			
-			boringFloor(e, l, all);
+			boringFloor(e, l, all, est);
 		
 		}
 		
 	}
-	boringFloor(e, l, all);
+	boringFloor(e, l, all, est);
 }
 
-void go(Elevador* e, Lista* l, int andar){
+void go(Elevador* e, Lista* l, Lista* est, int andar){
 	Node* aux = createNode();
 	aux = l->begin;
 	
@@ -123,16 +118,16 @@ void go(Elevador* e, Lista* l, int andar){
 		all = generateDown(all, e->posicao, andar);
 	}
 	
-	funnyFloor(e, l, all, andar);
+	funnyFloor(e, l, all, est, andar);
 	
 	crossing(l,all);
 
 }
 
-void atende(Elevador* e, Lista* l, Node* node){
+void atende(Elevador* e, Lista* l, Lista* est, Node* node){
 	if(node->demand.status != 1)
-		go(e, l, node->demand.origem);
+		go(e, l, est, node->demand.origem);
 	
-	go(e, l, node->demand.destino);
+	go(e, l, est, node->demand.destino);
 	
 }

@@ -14,6 +14,7 @@ int main(int argc, char *argv[]){
 	Dados dataInput;
 	Elevador e;
 	Lista* l;
+	Lista* est = createList();
 	if (argc <= 1){
 		printf("Há menos parâmetros que o necessário. Digite o nome do progama (./""nome_do_programa"")\nseguido do nome da estratégia de escalonamento (fcfs ou sjf).\n");
 		return 0;
@@ -26,11 +27,14 @@ int main(int argc, char *argv[]){
 	
 	e = dataInput.elevador;
 	l = dataInput.evento;
+	est = dataInput.evento;
+	printf("Lista l:\n");
 	printList(l);
+
 	if (!strcmp(argv[1], "fcfs")) 
-		fcfs(&e,l);
+		fcfs(&e,l, est);
 	else if (!strcmp(argv[1], "sjf"))
-		sjf(&e, l);
+		sjf(&e, l, est);
 
 	return 0;
 }

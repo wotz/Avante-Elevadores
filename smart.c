@@ -5,19 +5,18 @@
 #include "headers/elevador.h"
 #include "headers/atende.h"
 #include "headers/merge.h"
+#include "headers/gerador.h"
 #include "headers/smart.h"
 
 
-void fcfs(Elevador* e, Lista* l){
+void fcfs(Elevador* e, Lista* l, Lista* est){
 	l = generateTime(l);
-	printf("\n\n");
-	printList(l);
 	Node* node = createNode();
 	node = l->begin;
 	e->operacao = 0;
 	while(!isEmpety(l)){
 		if(node->demand.tempo <= e->tempo){
-			atende(e, l, node);	
+			atende(e, l, est, node);	
 		}
 		if(e->operacao == 0)
 			e->tempo ++;
@@ -26,7 +25,7 @@ void fcfs(Elevador* e, Lista* l){
 }
 
 
-void sjf(Elevador* e, Lista* l){
+void sjf(Elevador* e, Lista* l, Lista* est){
 	Lista *aux = createList();
 	aux = copyList(l);
 	Node* temp = createNode();
@@ -42,7 +41,7 @@ void sjf(Elevador* e, Lista* l){
 		if(destino == e->posicao || temp->demand.status == 1)
 			destino = temp->demand.destino;
 		
-		go(e, aux, destino);
+		go(e, aux, est, destino);
 		if(!e->operacao)
 			e->tempo++;
 		
