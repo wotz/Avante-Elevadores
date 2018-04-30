@@ -20,6 +20,7 @@ void boringFloor(Elevador* e, Lista* l, Lista* all, Lista* est){
 				embarca(e);
 				pointer->demand.status = 1;
 				pointer->demand.tempoEspera = e->tempo - pointer->demand.tempo;
+				printNode(pointer);
 			}
 				
 		}

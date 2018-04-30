@@ -147,14 +147,13 @@ Node* createNode(){
 //Imprime um nó
 void printNode(Node* node){
 	if(node != NULL){
-		printf("Id: %.2d ", node->demand.id);
-		printf("Origem: %.2d ", node->demand.origem);
-		printf("Destino: %.2d ", node->demand.destino);
-		printf("Status: %.2d ", node->demand.status);
-		printf("TO: %.2d ", node->demand.tempo);
-		printf("TE: %.2d ", node->demand.tempoEspera);
-		printf("TA: %.2d ", node->demand.tempoAtendimento);
-		printf("TT: %.2d \n", node->demand.tempoEspera + node->demand.tempoAtendimento);
+		printf("Id: %.3d ", node->demand.id);
+		printf("Origem: %.3d ", node->demand.origem);
+		printf("Destino: %.3d ", node->demand.destino);
+		printf("TO: %.3d ", node->demand.tempo);
+		printf("TE: %.3d ", node->demand.tempoEspera);
+		printf("TA: %.3d ", node->demand.tempoAtendimento);
+		printf("TT: %.3d \n", node->demand.tempoEspera + node->demand.tempoAtendimento);
 
 	}
 	else

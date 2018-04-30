@@ -30,12 +30,12 @@ int main(int argc, char *argv[]){
 	est = dataInput.evento;
 	printf("Dados Recebidos:\n");
 	printList(l);
-
+	printf("\n");
 	if (!strcmp(argv[1], "fcfs")) 
 		fcfs(&e,l, est);
 	else if (!strcmp(argv[1], "sjf"))
 		sjf(&e, l, est);
-	printf("\nLista Final\n");
+	printf("\n\nLista Final\n");
 	printList(est);
 	return 0;
 }

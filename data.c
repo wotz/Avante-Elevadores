@@ -48,6 +48,8 @@ Dados recebedados(int argc, char **argv)
 				demand.origem = origem;
 				demand.destino = destino;
 				demand.tempo = tempo;
+				demand.tempoEspera = 0;
+				demand.tempoAtendimento = 0;
 				demand.d = 0;
 				push(evento, demand);	
 			}

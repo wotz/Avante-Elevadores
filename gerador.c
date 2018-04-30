@@ -130,15 +130,16 @@ void crossing(Lista* l, Lista* all, Lista* est){
 
 		while(node->demand.id != pointer->demand.id)
 			node = node->next;
-
-		node->demand = pointer->demand;
+		
 		//Atualiza o status de aux
 		if(pointer->demand.status== 1){
 			aux->demand.status = 1;
+			node->demand.tempoEspera = pointer->demand.tempoEspera;
 		}
 
 		//Remove da lista l e da lista all solicitações já atendidas
 		else if(pointer->demand.status == 2){
+			node->demand.tempoAtendimento = pointer->demand.tempoAtendimento;
 			pop(l,pointer->demand.id);
 			pop(all, pointer->demand.id);
 
