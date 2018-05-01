@@ -98,17 +98,12 @@ int isFull(Elevador* e){
 
 //-------------Entrada e Saída de pessoas-------------//
 void embarca(Elevador* e, Lista* l, Lista* est, int id){
-	Node* node = createNode();
-	node = find(l, id);
-	
 	Node* aux = createNode();
 	aux = find(est, id);
 
 
-	if(!isFull(e) && node->demand.status == 0){
+	if(!isFull(e) && aux->demand.status == 0){
 		setLotacao(e, 1);
-		node->demand.status = 1;
-		
 		aux->demand.status = 1;
 		aux->demand.momentoEmbarque = getTempo(e);
 	}
@@ -119,7 +114,7 @@ void desembarca(Elevador* e, Lista* l, Lista* est, int id){
 	aux = find(est, id);
 
 
-	if(!isFull(e) && aux->demand.status == 0){
+	if(!isFull(e) && aux->demand.status == 1){
 		setLotacao(e, 0);
 		aux->demand.status = 2;
 		pop(l, id);
@@ -135,19 +130,19 @@ void stop(Elevador* e, Lista* l, Lista* est){
 	while(aux != NULL){
 		if(aux->demand.status == 1 && aux->demand.destino == getPosicao(e))
 			desembarca(e, l, est, aux->demand.id);
+		
 		aux = aux->next;
 	}
-
 	//Agora embarque todas as solicitações possíveis neste andar
 	aux = est->begin;
 	while(aux != NULL){
 
-		if(aux->demand.status == 0 && aux->demand.tempo == getTempo(e) &&
-		aux->demand.destino == getPosicao(e))
+		if(aux->demand.status == 0 && aux->demand.tempo <= getTempo(e) &&
+		aux->demand.origem == getPosicao(e))
 			embarca(e, l, est, aux->demand.id);
+		
 		aux = aux->next;
 	}
-	
 	
 }
 
@@ -197,12 +192,12 @@ void update(Lista* origem, Lista* destino){
 
 //Imprime o status doo elevador
 void printStatus (Elevador *e){
-	printf("---Satanas Elevadores: %dº andar-----\n", getPosicao(e));
-	printf("|	Andar Mín: %dº		    |\n",e->andarMin);
-	printf("|	Andar Máx: %dº		    |\n",e->andarMax);
-	printf("|	Capacidade Máx: %d 	    |\n",e->capacidade);
-	printf("|	Lotacao atual: %d 	    |\n",e->lotacao);
-	printf("|       Tempo atual: %d              |\n",e->tempo);
+	printf("---Satanas Elevadores: %.2dº andar-----\n", getPosicao(e));
+	printf("|	Andar Mín: %.2dº		    |\n",e->andarMin);
+	printf("|	Andar Máx: %.2dº		    |\n",e->andarMax);
+	printf("|	Capacidade Máx: %.2d 	    |\n",e->capacidade);
+	printf("|	Lotacao atual: %.2d 	    |\n",e->lotacao);
+	printf("|       Tempo atual: %.2d             |\n",e->tempo);
 	printf("-------------------------------------\n");
 }
 

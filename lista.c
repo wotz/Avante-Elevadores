@@ -110,13 +110,16 @@ void printList(Lista* l){
 
 //Retorna um nó com id id
 Node* find(Lista* l, int id){
+
 	Node* aux = createNode();
-	aux = l->begin;
+	aux = l->begin;	
 
 	while(aux != NULL){
-		aux = aux->next;
+
 		if(aux->demand.id == id)
 			return aux;
+		
+		aux = aux->next;
 	}
 	return NULL;
 }
@@ -161,8 +164,8 @@ void printNode(Node* node){
 		printf("TO: %.3d ", node->demand.tempo);
 		printf("TE: %.3d ", tempoEspera);
 		printf("TA: %.3d ", tempoAtendimento);
-		printf("TT: %.3d \n", tempoTotal);
-
+		printf("TT: %.3d ", tempoTotal);
+		printf("Status: %.3d \n", node->demand.status);
 	}
 	else
 		exit(1);
