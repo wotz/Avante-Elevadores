@@ -92,7 +92,6 @@ void pop(Lista* l,int id){
 		free(toPop);
 	}
 	l->size--;//Diminui o tamnho da lista
-
 }
 
 
@@ -110,15 +109,14 @@ void printList(Lista* l){
 
 
 //Retorna um nó com id id
-Node* find(Lista* l,int id){
-	Node* node = l->begin;
-	int i =1;
-	for(i = 1; i <= l->size;i++){
-		if(node->demand.id == id)	
-			return node;
-		else{
-			node = node->next;
-		}
+Node* find(Lista* l, int id){
+	Node* aux = createNode();
+	aux = l->begin;
+
+	while(aux != NULL){
+		aux = aux->next;
+		if(aux->demand.id == id)
+			return aux;
 	}
 	return NULL;
 }
