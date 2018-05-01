@@ -30,7 +30,6 @@ Dados recebedados(int argc, char **argv)
 		fscanf(arquivoElevador, "%d\n", &capacidade);
 	}
 	elevador = newElevador(andarMin, andarMax, capacidade);
-	printf("Parametros do elevador - Andar Mínimo: %d Andar Máximo: %d Capacidade: %d\n", andarMin, andarMax, capacidade);
 	fclose(arquivoElevador);
 	
 	evento = createList();

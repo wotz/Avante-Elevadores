@@ -28,6 +28,8 @@ int main(int argc, char *argv[]){
 	e = dataInput.elevador;
 	l = dataInput.evento;
 	est = copyList(l);
+	
+
 	printf("\n\n");
 	printf("-------------------Acima e Avante Elvadores-------------------\n");
 	printf("|TO: momento de ocorrencia                                   |\n");
@@ -36,34 +38,21 @@ int main(int argc, char *argv[]){
 	printf("|TT: tempo decorrido desde a solicitacao ate o atendimento   |\n");
 	printf("--------------------------------------------------------------\n");
 	printf("\n\n");
+	
 
-	e->tempo = 60;
-	e->lotacao = 1;
-	Node* node = createNode();
-
-	node->demand.id = 15;
-	node->demand.tempo = 10;
-	node->demand.momentoEmbarque = 15;
-	node->demand.status = 1;
-	node->demand.origem = 15;
-	node->demand.destino = 7;
-	push(est, node->demand);
-	push(l, node->demand);
-
-
-
+	printStatus(e);
+	
 	printf("Dados Recebidos:\n");
 	printList(l);
-	printf("\n\nEst\n");
+	
+	go(e, l, est, 15);
+	go(e, l, est, 20);
+
+
+	printf("\nResultado:\n");
 	printList(est);
 	printf("\n\n");
-
-	stop(e, l, est);
 	printStatus(e);
-	printList(est);
-	printf("\n\n");
-	printList(l);
-
 
 	/*if (!strcmp(argv[1], "fcfs")) 
 		fcfs(&e,l, est);

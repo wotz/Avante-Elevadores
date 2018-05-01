@@ -51,13 +51,25 @@ int getOperacao(Elevador* e){
 	return e->operacao;
 }
 
+
+void printStatus (Elevador *e){
+	printf("-------Acima e avante: %.2dº andar----\n", getPosicao(e));
+	printf("|      Andar Mín: %.2dº              |\n",getAndarMin(e));
+	printf("|      Andar Máx: %.2dº              |\n",getAndarMax(e));
+	printf("|      Capacidade Máx: %.2d          |\n",getCapacidade(e));
+	printf("|      Lotacao atual: %.2d           |\n",getLotacao(e));
+	printf("|      Tempo atual: %.2d             |\n",getTempo(e));
+	printf("------------------------------------\n");
+}
+
+
 //-------------Setters-------------//
 void setTempo(Elevador* e){
 	e->tempo++;
 }
 
-int setOperacao(Elevador* e){
-	e->operacao = !e->operacao;
+void setOperacao(Elevador* e, int operacao){
+	e->operacao = operacao;
 }
 
 
@@ -76,7 +88,7 @@ void setPosicao(Elevador* e, int o){
 void setLotacao(Elevador* e, int o){
 	if(!getOperacao(e)){
 		setTempo(e);
-		setOperacao(e);
+		setOperacao(e, 1);
 	}
 
 	if(o)
@@ -107,6 +119,7 @@ void embarca(Elevador* e, Lista* l, Lista* est, int id){
 		aux->demand.status = 1;
 		aux->demand.momentoEmbarque = getTempo(e);
 	}
+		
 }
 
 void desembarca(Elevador* e, Lista* l, Lista* est, int id){
@@ -114,32 +127,36 @@ void desembarca(Elevador* e, Lista* l, Lista* est, int id){
 	aux = find(est, id);
 
 
-	if(!isFull(e) && aux->demand.status == 1){
+	if(aux->demand.status == 1){
 		setLotacao(e, 0);
 		aux->demand.status = 2;
 		pop(l, id);
 		aux->demand.momentoDesembarque = getTempo(e);
 	}
+
 }
 
-
+//Para no andar e realiza operações de embarque e desembarque
 void stop(Elevador* e, Lista* l, Lista* est){
-	Node* aux  = est->begin;
 
+	Node* aux  = est->begin;
+	setOperacao(e, 0);
+	
 	//Primeiro desembarque todas as solicitações neste andar
 	while(aux != NULL){
 		if(aux->demand.status == 1 && aux->demand.destino == getPosicao(e))
-			desembarca(e, l, est, aux->demand.id);
-		
+			desembarca(e, l, est, aux->demand.id);	
 		aux = aux->next;
 	}
+
 	//Agora embarque todas as solicitações possíveis neste andar
 	aux = est->begin;
 	while(aux != NULL){
 
 		if(aux->demand.status == 0 && aux->demand.tempo <= getTempo(e) &&
-		aux->demand.origem == getPosicao(e))
+		aux->demand.origem == getPosicao(e)){
 			embarca(e, l, est, aux->demand.id);
+		}
 		
 		aux = aux->next;
 	}
@@ -147,74 +164,44 @@ void stop(Elevador* e, Lista* l, Lista* est){
 }
 
 //-------------Atendimento de Solicitações-------------//
-/*
+
+//Vai para o destino destino
 void go(Elevador* e, Lista* l, Lista* est, int destino){
 	
 	if(destino > e->posicao)
-		//goUp();
-	
+		goUp(e, l, est, destino);
 	else if(destino < e->posicao)
-		//goDown();
-	
+		goDown(e, l, est, destino);
 	else
-		//stop();
+		stop(e, l, est);
+	
+
 }
 
-
+//Vai para cima
 void goUp(Elevador* e, Lista* l, Lista* est, int destino){
 
-}
-
-/*
-void goDown(Elevador* e, Lista* l, Lista* est, int destino){
+	stop(e, l, est);
 	while(getPosicao(e) != destino){
-		stop(e);
-		descer(e);
+		
+		setPosicao(e, 1);
+		stop(e, l, est);
+		printStatus(e);
+		int c = getchar();
 	}
 	stop(e, l, est);
-
+	printStatus(e);
 }
 
-
-
-*/
-
-
-
-
-
-void update(Lista* origem, Lista* destino){
-
-}
-
-
-
-
-//Imprime o status doo elevador
-void printStatus (Elevador *e){
-	printf("---Satanas Elevadores: %.2dº andar-----\n", getPosicao(e));
-	printf("|	Andar Mín: %.2dº		    |\n",e->andarMin);
-	printf("|	Andar Máx: %.2dº		    |\n",e->andarMax);
-	printf("|	Capacidade Máx: %.2d 	    |\n",e->capacidade);
-	printf("|	Lotacao atual: %.2d 	    |\n",e->lotacao);
-	printf("|       Tempo atual: %.2d             |\n",e->tempo);
-	printf("-------------------------------------\n");
-}
-
-/*
-Lista* onElevator(Lista* l){
-	Lista* onElevator = createList();
-	
-	Node* node = createNode();
-	node = l->begin;
-	
-	while(node != NULL){
-		if(node->demand.id == 1)
-			push(onElevator, demand);
-		node = node->next;	
+//Vai para baixo
+void goDown(Elevador* e, Lista* l, Lista* est, int destino){
+	stop(e, l, est);	
+	while(getPosicao(e) != destino){
+		
+		setPosicao(e, 0);
+		stop(e, l, est);
+		printStatus(e);
+		int c = getchar();
 	}
-	printList(onElevator);
-	return onElevator;
-}	
-
-*/
+	stop(e, l, est);
+}
