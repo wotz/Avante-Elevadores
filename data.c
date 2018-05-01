@@ -16,7 +16,7 @@ Dados recebedados(int argc, char **argv)
 	FILE *arquivoElevador;
 	FILE *arquivoEventos;
 
-	Elevador elevador;
+	Elevador* elevador;
 	Lista* evento;
 	Demand demand;
 
@@ -29,7 +29,7 @@ Dados recebedados(int argc, char **argv)
 		fscanf(arquivoElevador, "%d %d\n", &andarMin, &andarMax);
 		fscanf(arquivoElevador, "%d\n", &capacidade);
 	}
-	elevador = createElevador(andarMin, andarMax, capacidade);
+	elevador = newElevador(andarMin, andarMax, capacidade);
 	printf("Parametros do elevador - Andar Mínimo: %d Andar Máximo: %d Capacidade: %d\n", andarMin, andarMax, capacidade);
 	fclose(arquivoElevador);
 	
@@ -48,8 +48,8 @@ Dados recebedados(int argc, char **argv)
 				demand.origem = origem;
 				demand.destino = destino;
 				demand.tempo = tempo;
-				demand.tempoEspera = 0;
-				demand.tempoAtendimento = 0;
+				demand.momentoEmbarque = 0;
+				demand.momentoDesembarque = 0;
 				demand.d = 0;
 				push(evento, demand);	
 			}

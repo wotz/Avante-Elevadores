@@ -32,7 +32,7 @@ void mergeSort(Node** beginPointer, int opt){
 
     *beginPointer = sortedMerge(a, b, opt);
 }
-Node* sortedMerge(Node* a,Node* b, int opt){
+Node* sortedMerge(Node* a, Node* b, int opt){
     Node* result = NULL;
     int x, y;
 
@@ -41,27 +41,34 @@ Node* sortedMerge(Node* a,Node* b, int opt){
     else if (b==NULL)
         return(a);
 
-    //Escolha de condiçao: 0 para ordenar pela origem
-   	if(opt == 0){
-   		x = a->demand.origem;
-   		y = b->demand.origem;
-   	}
-   	else if(opt == 1){
-		x = a->demand.destino;
-   		y = b->demand.destino;
-   	}
-    else if(opt == 3){
-        x = a->demand.d;
-        y = b->demand.d;
+    switch(opt){
+        
+        //ordena pela origem
+        case 0:
+            x = a->demand.origem;
+            y = b->demand.origem;
+        break;
+        
+        //ordena pelo destino
+        case 1:
+            x = a->demand.destino;
+            y = b->demand.destino;
+        break;
+        
+        //ordena pela id
+        case 2:
+            x = a->demand.d;
+            y = b->demand.d;
+        break;
+
+        //ordena pelo tempo
+        case 3:
+            x = a->demand.tempo;
+            y = b->demand.tempo;
+        break;
+      
     }
-    else if(opt == 4){
-        x = a->demand.tempo;
-        y = b->demand.tempo;
-    }
-    else{
-        x = a->demand.id;
-   		y = b->demand.id;
-    }
+    
 
     if (x <= y){
         result = a;

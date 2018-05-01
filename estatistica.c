@@ -1,7 +1,0 @@
-float calculaMedia (){
-
-}
-
-float calculaDP (){
-
-}

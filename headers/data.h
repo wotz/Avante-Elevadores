@@ -1,7 +1,7 @@
 #ifndef DATAINPUT_H_INCLUDED
 #define DATAINPUT_H_INCLUDED
 struct dados {
-	Elevador elevador;
+	Elevador* elevador;
 	Lista* evento;
 };
 typedef struct dados Dados;

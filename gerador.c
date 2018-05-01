@@ -15,6 +15,10 @@ Lista* generate(Lista* l, int posicao, int destino){
 	//Nova lista para inserção das demandas passíveis de ser atendidas
 	//Salva os atendimentos intermediarios
 	Lista* now = createList();
+	if(l->size == 1){
+		push(now, l->begin->demand);
+		return now;
+	}
 	//Ponteiro auxiliar para percorrer lista começando do begin
 	Node* pointer = createNode();
 	pointer = l->begin;
@@ -52,7 +56,10 @@ Lista* generateDown(Lista* l, int posicao, int destino){
 	//Nova lista para inserção das demandas passíveis de ser atendidas
 	//Salva os atendimentos intermediarios
 	Lista* now = createList();
-	
+	if(l->size == 1){
+		push(now, l->begin->demand);
+		return now;
+	}
 	//Ponteiro auxiliar para percorrer lista começando do begin
 	Node* pointer = createNode();
 	pointer 	  = l->begin;
@@ -77,7 +84,6 @@ Lista* generateDown(Lista* l, int posicao, int destino){
 	now->first = now->begin->demand.id;
 
 	merge(now, 0);
-	return now;
 	return now;
 }
 
@@ -132,14 +138,14 @@ void crossing(Lista* l, Lista* all, Lista* est){
 			node = node->next;
 		
 		//Atualiza o status de aux
-		if(pointer->demand.status== 1){
+		if(pointer->demand.status== 1 && aux->demand.status == 0){
 			aux->demand.status = 1;
-			node->demand.tempoEspera = pointer->demand.tempoEspera;
+			node->demand.momentoEmbarque = pointer->demand.momentoEmbarque;
 		}
 
 		//Remove da lista l e da lista all solicitações já atendidas
-		else if(pointer->demand.status == 2){
-			node->demand.tempoAtendimento = pointer->demand.tempoAtendimento;
+		else if(pointer->demand.status == 2 && aux->demand.status == 1){
+			node->demand.momentoDesembarque = pointer->demand.momentoDesembarque;
 			pop(l,pointer->demand.id);
 			pop(all, pointer->demand.id);
 

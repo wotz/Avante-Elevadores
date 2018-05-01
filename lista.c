@@ -147,13 +147,23 @@ Node* createNode(){
 //Imprime um nó
 void printNode(Node* node){
 	if(node != NULL){
+		int tempoEspera = 0, tempoAtendimento = 0, tempoTotal = 0;
+		/*
+			Por Definição uma solicitação demora pelo menos duas unidade de tempo
+			para ser atendida
+		*/
+		if(node->demand.momentoDesembarque != 0){
+			tempoEspera = node->demand.momentoEmbarque - node->demand.tempo; 
+			tempoTotal = node->demand.momentoDesembarque - node->demand.tempo;
+			tempoAtendimento = tempoTotal - tempoEspera;
+		}
 		printf("Id: %.3d ", node->demand.id);
 		printf("Origem: %.3d ", node->demand.origem);
 		printf("Destino: %.3d ", node->demand.destino);
 		printf("TO: %.3d ", node->demand.tempo);
-		printf("TE: %.3d ", node->demand.tempoEspera);
-		printf("TA: %.3d ", node->demand.tempoAtendimento);
-		printf("TT: %.3d \n", node->demand.tempoEspera + node->demand.tempoAtendimento);
+		printf("TE: %.3d ", tempoEspera);
+		printf("TA: %.3d ", tempoAtendimento);
+		printf("TT: %.3d \n", tempoTotal);
 
 	}
 	else

@@ -12,7 +12,7 @@
 
 int main(int argc, char *argv[]){
 	Dados dataInput;
-	Elevador e;
+	Elevador* e;
 	Lista* l;
 	Lista* est = createList();
 	if (argc <= 1){
@@ -28,14 +28,24 @@ int main(int argc, char *argv[]){
 	e = dataInput.elevador;
 	l = dataInput.evento;
 	est = dataInput.evento;
+	printf("\n\n");
+	printf("-------------------Acima e Avante Elvadores-------------------\n");
+	printf("|TO: momento de ocorrencia                                   |\n");
+	printf("|TE: tempo ate o elvador chegar na solicitacao               |\n");
+	printf("|TA: tempo que a pessoa passsa dentro do elevador            |\n");
+	printf("|TT: tempo decorrido desde a solicitacao ate o atendimento   |\n");
+	printf("--------------------------------------------------------------\n");
+	printf("\n\n");
 	printf("Dados Recebidos:\n");
 	printList(l);
 	printf("\n");
-	if (!strcmp(argv[1], "fcfs")) 
+	printList(est);
+	/*if (!strcmp(argv[1], "fcfs")) 
 		fcfs(&e,l, est);
 	else if (!strcmp(argv[1], "sjf"))
 		sjf(&e, l, est);
-	printf("\n\nLista Final\n");
+	*/
+	printf("\nLista Final\n");
 	printList(est);
 	return 0;
 }

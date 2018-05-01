@@ -7,7 +7,7 @@
 #include "headers/merge.h"
 #include "headers/gerador.h"
 #include "headers/smart.h"
-
+/*
 
 void fcfs(Elevador* e, Lista* l, Lista* est){
 	l = generateTime(l);
@@ -25,31 +25,7 @@ void fcfs(Elevador* e, Lista* l, Lista* est){
 }
 
 
-void sjf(Elevador* e, Lista* l, Lista* est){
-	Lista *aux = createList();
-	aux = copyList(l);
-	Node* temp = createNode();
-	int destino;
-	while(!isEmpety(aux)){
-	
-		calculaDistancia(e, aux);
-		
-		temp = shortest(e,aux);
-		
-		destino = temp->demand.origem;
-		
-		if(destino == e->posicao || temp->demand.status == 1)
-			destino = temp->demand.destino;
-		
-		go(e, aux, est, destino);
-		if(!e->operacao)
-			e->tempo++;
-		
 
-	}
-	
-	//repetir várias vezes
-}
 
 void calculaDistancia(Elevador* e, Lista* l) {
 	Node* pointer = l->begin;
@@ -68,23 +44,4 @@ void calculaDistancia(Elevador* e, Lista* l) {
 		pointer = pointer->next;	
 	}
 }
-
-Node* shortest(Elevador* e, Lista* l){
-	
-	Node* aux = createNode();
-	aux = l->begin;
-	
-	Node* node = createNode();
-	node = l->begin;
-
-	while(node != NULL){
-		if(aux->demand.d > node->demand.d && node->demand.tempo <= e->tempo){
-			aux = node;
-		}
-
-		//printNode(node);
-		node = node->next;
-	}
-
-	return aux;
-}
+*/

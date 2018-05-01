@@ -4,8 +4,8 @@ typedef struct solicitacao{
 	int destino;
 	int id;
 	int tempo;//Tempo de ocorrência
-	int tempoEspera;
-	int tempoAtendimento;
+	int momentoEmbarque;
+	int momentoDesembarque;
 	int tipo;//embarque ou desembarque
 	int status;//pensei em 0: esperando, 1:em viagem, 2: atendido
 	int d;

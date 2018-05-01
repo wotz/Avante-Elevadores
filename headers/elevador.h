@@ -10,12 +10,22 @@ typedef struct elevador{
 	int operacao;
 }Elevador;
 
+//-------------Constructor-------------//
+Elevador* newElevador(int min, int max, int c);
 
-Elevador createElevador(int min, int max, int c);
-int subir(Elevador *e);
-int descer(Elevador *e);
-int isLotado(Elevador e);
-int embarca(Elevador *e);
-void desembarca(Elevador *e);
-void printStatus(Elevador *e);
+//-------------Getters-------------//
+int getTime(Elevador* e);
+
+int getPosicao(Elevador* e);
+
+int getCapacidade(Elevador* e);
+
+int getLotacao(Elevador* e);
+
+//-------------Setters-------------//
+void setPosicao(Elevador* e, int o);
+
+void setLotacao(Elevador* e, int o);
+
+void setTempo(Elevador* e);
 

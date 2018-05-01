@@ -5,79 +5,65 @@
 
 
 //Cria e retorna um novo elevador
-Elevador createElevador(int min, int max, int c){
-	Elevador e;
-	e.andarMin = min;
-	e.andarMax = max;
-	e.capacidade = c;
-	e.tempo = 0;
-	e.operacao = 0;
-	e.lotacao=0;
-	e.posicao=7;
+Elevador* newElevador(int min, int max, int c){
+	Elevador* e = (Elevador*)malloc(sizeof(Elevador));
+	e->andarMin = min;//static
+	e->andarMax = max;//static
+	e->capacidade = c;//static
+	e->tempo = 0;
+	e->lotacao=0;
+	e->posicao=7;
 	return e;
 }
 
 
-//Sobe um andar
-int subir(Elevador *e){
-	if(e->posicao < e->andarMax){
-		//printStatus(e);
-		e->operacao = 1;
-		e->tempo++;
+//-------------Getters-------------//
+int getTime(Elevador* e){
+	return e->tempo;
+}
+
+int getPosicao(Elevador* e){
+	return e->posicao;
+}
+
+int getCapacidade(Elevador* e){
+	return e->capacidade;
+}
+
+int getLotacao(Elevador* e){
+	return e->lotacao;
+}
+
+int getAndarMin(Elevador* e){
+	return e->andarMin;
+}
+
+int getAndarMax(Elevador* e){
+	return e->andarMax;
+}
+
+//-------------Setters-------------//
+void setPosicao(Elevador* e, int o){
+	if(o)
 		e->posicao++;
-	}
 	else
-		exit(1);
-}
-
-
-//Desce um andar
-int descer(Elevador *e){
-	if(e->posicao > e->andarMin){
-		//printStatus(e);
-		e->operacao = 1;
-		e->tempo++;
 		e->posicao--;
-	}
-	else
-		exit(1);
 }
 
-
-//O elevador está cheio?
-int isLotado(Elevador e){
-	if(e.lotacao < e.capacidade)
-		return 0;
-	else 
-		return 1;
-}
-
-
-//Simula a entrada de uma pessoa no elevador
-int embarca(Elevador *e){
-	if(!isLotado(*e)){
+void setLotacao(Elevador* e, int o){
+	if(o)
 		e->lotacao++;
-		return 1;
-	}
-	else return 0;
-	
+	else
+		e->lotacao--;
 }
 
 
-//Simula a saída de uma pessoa no elevador
-void desembarca(Elevador *e){
-	e->lotacao--;
+void setTempo(Elevador* e){
+	e->tempo++;
 }
 
 
-//Imprime o status doo elevador
-void printStatus (Elevador *e){
-	printf("---Satanas Elevadores: %dº andar-----\n", e->posicao);
-	printf("|	Andar Mín: %dº		    |\n",e->andarMin);
-	printf("|	Andar Máx: %dº		    |\n",e->andarMax);
-	printf("|	Capacidade Máx: %d 	    |\n",e->capacidade);
-	printf("|	Lotacao atual: %d 	    |\n",e->lotacao);
-	printf("|       Tempo atual: %d              |\n",e->tempo);
-	printf("-------------------------------------\n");
-}
+
+
+
 
