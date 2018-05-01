@@ -39,6 +39,8 @@ void setPosicao(Elevador* e, int o);
 
 void setLotacao(Elevador* e, int o);
 
+//-------------Is Full-------------//
+int isFull(Elevador* e);
 
 //-------------Embarque e desembarque-------------//
 void embarca(Elevador* e, Lista* l, Lista* est, int id);

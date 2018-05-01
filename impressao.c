@@ -39,6 +39,7 @@ void printNode(Node* node){
 		printf("TE: %.3d ", tempoEspera);
 		printf("TA: %.3d ", tempoAtendimento);
 		printf("TT: %.3d ", tempoTotal);
+		printf("d: %d ", node->demand.d);
 		printf("Status: %d \n", node->demand.status);
 	}
 	else

@@ -165,6 +165,7 @@ void go(Elevador* e, Lista* l, Lista* est, int destino){
 		goDown(e, l, est, destino);
 	else
 		stop(e, l, est);
+	printList(est);
 }
 
 //Vai para cima

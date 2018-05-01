@@ -36,8 +36,8 @@ int main(int argc, char *argv[]){
 	
 	if (!strcmp(argv[1], "fcfs")) 
 		fcfs(e, l, est);
-	// else if (!strcmp(argv[1], "sjf"))
-	// 	sjf(&e, l, est);
+	else if (!strcmp(argv[1], "sjf"))
+		sjf(e, l, est);
 	
 	printf("\nResultado:\n");
 	printList(est);
