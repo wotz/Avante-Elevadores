@@ -1,4 +1,0 @@
-
-
-float calculaMedia();
-float calculaDP();

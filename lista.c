@@ -1,9 +1,9 @@
 #include <stdio.h>
 #include <stdlib.h>
 #include "headers/lista.h"
-//-----Funções Básicas de Gerenciamento de Lista-----//
 
 
+//-------------Constructor-------------//
 //Função que cria uma lista e retorna um ponteiro para área de memória alocada para mesma
 Lista* createList(){
 	Lista* l = (Lista*)malloc(sizeof(Lista));
@@ -12,14 +12,13 @@ Lista* createList(){
 	l->size = 0;
 }
 
-
-
-//A lista está vazia?
-int isEmpety(Lista* l){
-	return (l->size == 0);
+//Cria um nó
+Node* createNode(){
+	Node* node = (Node*)malloc(sizeof(Node));
+	return node;
 }
 
-
+//-------------Gerenciamento básico de Lista-------------//
 //Função que insere célula no fim da "Fila"
 void push(Lista* l, Demand demand){
 	Node* node = (Node*)malloc(sizeof(Node));
@@ -94,20 +93,6 @@ void pop(Lista* l,int id){
 	l->size--;//Diminui o tamnho da lista
 }
 
-
-//Imprime a lista
-void printList(Lista* l){
-	if(isEmpety(l))//verifica se a lista está vazia
-		return;
-	Node* pointer = createNode();
-	pointer = l->begin;
-	while(pointer != NULL){
-		printNode(pointer);
-		pointer = pointer->next;
-	}
-}
-
-
 //Retorna um nó com id id
 Node* find(Lista* l, int id){
 
@@ -124,6 +109,7 @@ Node* find(Lista* l, int id){
 	return NULL;
 }
 
+
 //Retorna uma nova lista que é cópia da recebida como parâmetro
 Lista* copyList(Lista* l){
 	Lista* new_l = createList();
@@ -138,36 +124,130 @@ Lista* copyList(Lista* l){
 	return new_l;
 }
 
-
-//Cria um nó
-Node* createNode(){
-	Node* node = (Node*)malloc(sizeof(Node));
-	return node;
+//A lista está vazia?
+int isEmpety(Lista* l){
+	return (l->size == 0);
 }
 
-//Imprime um nó
-void printNode(Node* node){
-	if(node != NULL){
-		int tempoEspera = 0, tempoAtendimento = 0, tempoTotal = 0;
-		/*
-			Por Definição uma solicitação demora pelo menos duas unidade de tempo
-			para ser atendida
-		*/
-		if(node->demand.momentoDesembarque != 0){
-			tempoEspera = node->demand.momentoEmbarque - node->demand.tempo; 
-			tempoTotal = node->demand.momentoDesembarque - node->demand.tempo;
-			tempoAtendimento = tempoTotal - tempoEspera;
-		}
-		printf("Id: %.3d ", node->demand.id);
-		printf("Origem: %.3d ", node->demand.origem);
-		printf("Destino: %.3d ", node->demand.destino);
-		printf("TO: %.3d ", node->demand.tempo);
-		printf("TE: %.3d ", tempoEspera);
-		printf("TA: %.3d ", tempoAtendimento);
-		printf("TT: %.3d ", tempoTotal);
-		printf("Status: %.3d \n", node->demand.status);
+//-------------Gerenciamento Avançado de Lista-------------//
+
+//Gera uma lista ordenada pelo tempo
+Lista* generateTime(Lista* l){
+	int id = 1;
+	//Faz uma lista auxiliar  
+	Lista* aux = createList();
+	//Ordena aux pelo tempo
+	merge(l, 3);
+	//Ponteiro para percorrer a l
+	Node* pointer = createNode();
+	pointer = l->begin;
+	while(pointer != NULL){
+		pointer->demand.id = id;
+		push(aux, pointer->demand);
+		//anda pointer
+		pointer = pointer->next;
+		id++;
 	}
-	else
-		exit(1);
+	return aux;
 }
 
+//-------------Merge Sort-------------//
+
+//Algoritmo obtido do site: https://ide.geeksforgeeks.org/index.php (adaptado)
+void merge(Lista* l,int opt){
+
+	mergeSort(&l->begin,opt);
+	//Algoritmo que faz com que o head aponte para o fim da lista depois de aplicar o merge
+	Node* pointer = createNode();
+	pointer = l->begin; 
+	while(pointer != NULL){
+		if(pointer->next == NULL)
+			l->head = pointer;
+		pointer = pointer->next;
+		
+	}
+}
+
+
+void mergeSort(Node** beginPointer, int opt){
+    Node* begin = *beginPointer;
+    Node* a;
+    Node* b;
+    if ((begin == NULL) || (begin->next == NULL))
+        return;
+
+    frontBackSplit(begin, &a, &b); 
+
+
+    mergeSort(&a, opt);
+    mergeSort(&b, opt);
+
+    *beginPointer = sortedMerge(a, b, opt);
+}
+
+
+Node* sortedMerge(Node* a, Node* b, int opt){
+    Node* result = NULL;
+    int x, y;
+
+    if (a == NULL)
+        return(b);
+    else if (b==NULL)
+        return(a);
+
+    switch(opt){
+        
+        //ordena pela origem
+        case 0:
+            x = a->demand.origem;
+            y = b->demand.origem;
+        break;
+        
+        //ordena pelo destino
+        case 1:
+            x = a->demand.destino;
+            y = b->demand.destino;
+        break;
+        
+        //ordena pela id
+        case 2:
+            x = a->demand.d;
+            y = b->demand.d;
+        break;
+
+        //ordena pelo tempo
+        case 3:
+            x = a->demand.tempo;
+            y = b->demand.tempo;
+        break;
+      
+    }
+    
+
+    if (x <= y){
+        result = a;
+        result->next = sortedMerge(a->next, b, opt);
+    }
+    else{
+        result = b;
+        result->next = sortedMerge(a, b->next, opt);
+    }
+    return(result);
+}
+
+void frontBackSplit(Node* source,Node** frontRef,Node** backRef){
+    Node* fast;
+    Node* slow;
+    slow = source;
+    fast = source->next;
+    while (fast != NULL){
+    	fast = fast->next;
+    	if (fast != NULL){
+        	slow = slow->next;
+        	fast = fast->next;
+    	}
+    }
+    *frontRef = source;
+    *backRef = slow->next;
+    slow->next = NULL;
+}

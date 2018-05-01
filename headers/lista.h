@@ -33,6 +33,9 @@ Node* createNode();
 int isEmpety(Lista* l);
 void pop(Lista* l,int id);
 void push(Lista* l, Demand demand);
-void printList(Lista *l);
-void printNode(Node* node);
 
+Lista* generateTime(Lista* l);
+
+void merge(Lista* l,int opt);
+void mergeSort(Node** beginPointer, int opt);
+void frontBackSplit(Node* source,Node** frontRef,Node** backRef);

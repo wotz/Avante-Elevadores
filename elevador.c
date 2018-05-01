@@ -1,5 +1,6 @@
 #include "headers/lista.h"
 #include "headers/elevador.h"
+#include "headers/impressao.h"
 #include <stdlib.h>
 #include <stdio.h>
 
@@ -49,17 +50,6 @@ int getLotacao(Elevador* e){
 
 int getOperacao(Elevador* e){
 	return e->operacao;
-}
-
-
-void printStatus (Elevador *e){
-	printf("-------Acima e avante: %.2dº andar----\n", getPosicao(e));
-	printf("|      Andar Mín: %.2dº              |\n",getAndarMin(e));
-	printf("|      Andar Máx: %.2dº              |\n",getAndarMax(e));
-	printf("|      Capacidade Máx: %.2d          |\n",getCapacidade(e));
-	printf("|      Lotacao atual: %.2d           |\n",getLotacao(e));
-	printf("|      Tempo atual: %.2d             |\n",getTempo(e));
-	printf("------------------------------------\n");
 }
 
 
@@ -113,13 +103,16 @@ void embarca(Elevador* e, Lista* l, Lista* est, int id){
 	Node* aux = createNode();
 	aux = find(est, id);
 
+	Node* node = createNode();
+	node = find(l, id);
 
 	if(!isFull(e) && aux->demand.status == 0){
 		setLotacao(e, 1);
 		aux->demand.status = 1;
+		node->demand.status = 1;
+		node->demand.momentoEmbarque = getTempo(e);
 		aux->demand.momentoEmbarque = getTempo(e);
-	}
-		
+	}	
 }
 
 void desembarca(Elevador* e, Lista* l, Lista* est, int id){
@@ -133,7 +126,6 @@ void desembarca(Elevador* e, Lista* l, Lista* est, int id){
 		pop(l, id);
 		aux->demand.momentoDesembarque = getTempo(e);
 	}
-
 }
 
 //Para no andar e realiza operações de embarque e desembarque
@@ -160,7 +152,6 @@ void stop(Elevador* e, Lista* l, Lista* est){
 		
 		aux = aux->next;
 	}
-	
 }
 
 //-------------Atendimento de Solicitações-------------//
@@ -174,8 +165,6 @@ void go(Elevador* e, Lista* l, Lista* est, int destino){
 		goDown(e, l, est, destino);
 	else
 		stop(e, l, est);
-	
-
 }
 
 //Vai para cima
@@ -186,11 +175,11 @@ void goUp(Elevador* e, Lista* l, Lista* est, int destino){
 		
 		setPosicao(e, 1);
 		stop(e, l, est);
-		printStatus(e);
-		int c = getchar();
+		// printStatus(e);
+		// int c = getchar();
 	}
 	stop(e, l, est);
-	printStatus(e);
+	// printStatus(e);
 }
 
 //Vai para baixo
@@ -200,8 +189,9 @@ void goDown(Elevador* e, Lista* l, Lista* est, int destino){
 		
 		setPosicao(e, 0);
 		stop(e, l, est);
-		printStatus(e);
-		int c = getchar();
+		// printStatus(e);
+		// int c = getchar();
 	}
 	stop(e, l, est);
+	// printStatus(e);
 }
