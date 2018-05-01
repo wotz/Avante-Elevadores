@@ -5,4 +5,4 @@ all:
 	gcc -c data.c -o bin/data.o
 	gcc -c smart.c -o bin/smart.o
 	gcc -c impressao.c -o bin/impressao.o
-	gcc bin/lista.o bin/elevador.o bin/impressao.o bin/data.o bin/main.o bin/smart.o -o exit
+	gcc bin/lista.o bin/elevador.o bin/impressao.o bin/data.o bin/main.o bin/smart.o -o exit -std=c99 -Wall -pedantic

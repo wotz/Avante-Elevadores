@@ -143,6 +143,8 @@ void stop(Elevador* e, Lista* l, Lista* est){
 
 	//Agora embarque todas as solicitações possíveis neste andar
 	aux = est->begin;
+	if(isFull(e))
+		exit(1);
 	while(aux != NULL){
 
 		if(aux->demand.status == 0 && aux->demand.tempo <= getTempo(e) &&
@@ -158,14 +160,14 @@ void stop(Elevador* e, Lista* l, Lista* est){
 
 //Vai para o destino destino
 void go(Elevador* e, Lista* l, Lista* est, int destino){
-	
+	if(isFull(e))
+		exit(1);
 	if(destino > e->posicao)
 		goUp(e, l, est, destino);
 	else if(destino < e->posicao)
 		goDown(e, l, est, destino);
 	else
 		stop(e, l, est);
-	printList(est);
 }
 
 //Vai para cima
@@ -176,6 +178,8 @@ void goUp(Elevador* e, Lista* l, Lista* est, int destino){
 		
 		setPosicao(e, 1);
 		stop(e, l, est);
+		if(isFull(e))
+			return;
 		// printStatus(e);
 		// int c = getchar();
 	}
@@ -190,6 +194,8 @@ void goDown(Elevador* e, Lista* l, Lista* est, int destino){
 		
 		setPosicao(e, 0);
 		stop(e, l, est);
+		if(isFull(e))
+			return;
 		// printStatus(e);
 		// int c = getchar();
 	}
