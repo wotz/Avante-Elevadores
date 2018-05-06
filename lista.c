@@ -2,25 +2,23 @@
 #include <stdlib.h>
 #include "headers/lista.h"
 
-//-------------Lista-------------//
-
-//-------------Constructors-------------//
-
+//-------------Constructor-------------//
+//Função que cria uma lista e retorna um ponteiro para área de memória alocada para mesma
 Lista* createList(){
 	Lista* l = (Lista*)malloc(sizeof(Lista));
 	l->head = NULL;
 	l->begin = NULL;
 	l->size = 0;
-	return l;
 }
 
+//Cria um nó
 Node* createNode(){
 	Node* node = (Node*)malloc(sizeof(Node));
 	return node;
 }
 
-//-------------Essenciais de Lista-------------//
-
+//-------------Gerenciamento básico de Lista-------------//
+//Função que insere célula no fim da "Fila"
 void push(Lista* l, Demand demand){
 	Node* node = (Node*)malloc(sizeof(Node));
 	node->demand = demand;
@@ -38,6 +36,8 @@ void push(Lista* l, Demand demand){
 }
 
 
+//Função pop  boladona
+//Ressalto que o caralho da lista tem que tá ordenada pela id
 void pop(Lista* l,int id){
 	//Nó auxiliar para percorrer a lista, começa no begin
 	Node* aux = createNode();
@@ -92,22 +92,7 @@ void pop(Lista* l,int id){
 	l->size--;//Diminui o tamnho da lista
 }
 
-//-------------Auxiliares-------------//
-
-Lista* copyList(Lista* l){
-	Lista* new_l = createList();
-	Node* pointer = createNode();
-	Demand demand;
-	pointer = l->begin;
-	while(pointer){
-		demand = pointer->demand;
-		push(new_l,demand);
-		pointer = pointer->next;
-	}
-	return new_l;
-}
-
-
+//Retorna um nó com id id
 Node* find(Lista* l, int id){
 
 	Node* aux = createNode();
@@ -123,6 +108,29 @@ Node* find(Lista* l, int id){
 	return NULL;
 }
 
+
+//Retorna uma nova lista que é cópia da recebida como parâmetro
+Lista* copyList(Lista* l){
+	Lista* new_l = createList();
+	Node* pointer = createNode();
+	Demand demand;
+	pointer = l->begin;
+	while(pointer){
+		demand = pointer->demand;
+		push(new_l,demand);
+		pointer = pointer->next;
+	}
+	return new_l;
+}
+
+//A lista está vazia?
+int isEmpety(Lista* l){
+	return (l->size == 0);
+}
+
+//-------------Gerenciamento Avançado de Lista-------------//
+
+//Gera uma lista ordenada pelo tempo
 Lista* generateTime(Lista* l){
 	int id = 1;
 	//Faz uma lista auxiliar  
@@ -141,12 +149,6 @@ Lista* generateTime(Lista* l){
 	}
 	return aux;
 }
-
-int isEmpety(Lista* l){
-	return (l->size == 0);
-}
-
-
 
 //-------------Merge Sort-------------//
 
@@ -184,6 +186,12 @@ void mergeSort(Node** beginPointer, int opt){
 
 
 Node* sortedMerge(Node* a, Node* b, int opt){
+	/*(int) @opt -> opção de ordenação:
+					   0: pela origem
+					   1: pelo destino
+					   2: pela distancia
+					   3: pelo tempo
+	*/				   
     Node* result = NULL;
     int x, y;
 
@@ -193,7 +201,7 @@ Node* sortedMerge(Node* a, Node* b, int opt){
         return(a);
 
     switch(opt){
-        
+
         //ordena pela origem
         case 0:
             x = a->demand.origem;
@@ -220,7 +228,6 @@ Node* sortedMerge(Node* a, Node* b, int opt){
       
     }
     
-
     if (x <= y){
         result = a;
         result->next = sortedMerge(a->next, b, opt);

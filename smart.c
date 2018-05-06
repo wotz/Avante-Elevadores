@@ -1,145 +1,167 @@
+ #include <stdio.h>
+#include <stdlib.h>
+#include <string.h>
 #include "headers/lista.h"
 #include "headers/elevador.h"
 #include "headers/smart.h"
-#include "headers/impressao.h"
-#include <stdio.h>
-#include <stdlib.h>
-//-------------Smart-------------//
+#include "headers/data.h"
 
-//-------------Metodos Principais-------------//
-
+/*	
+	Função que controla o elevador conforme as regras da estratégia First-Come, First-Served
+	Parâmetros:
+		(Elevador*) @e -> elevador
+		(Lista*) @l -> lista de solicitações
+		(Lista*) @est -> lista usada para cálculos estatísticos
+	Variáveis locais:
+		(Node*) @node -> nó para percorrer a lista @l
+	Retorna:
+		Função do tipo vazio
+*/
 void fcfs(Elevador* e, Lista* l, Lista* est){
-
 	Node* node = createNode();
 	node = l->begin;
 
-	int i = 0; //verifica se o tempo tempo foi atualizado
+	int i = 0;
 	while(!isEmpety(l)){
-		if(!isFull(e)){
-			fcfsNotFull(e, l, est);
-			printf("minha marca\n");
-			int c = getchar();
+		i = 0;
+		printNode(node);
+		if(!isFull(e) && node->demand.tempo <= getTempo(e) && node->demand.status == 0){
+			go(e, l, est, node->demand.origem);
+			i = 1;
+			node = l->begin;
 		}
-		else{
-			printf("não é minha marca\n");
-			fcfsFull(e, l, est);
+		else if(!isFull(e) && node->demand.status == 1){
+			go(e, l, est, node->demand.destino);
+			i = 1;
+			node = l->begin;
+		}
+		else if(isFull(e)){
+			while(node != NULL || i==0){
+				if(node->demand.status == 1){
+					go(e, l, est, node->demand.destino);
+					i = 1;
+					break;
+				}		
+				else
+					node = node->next;
+			}
+			
+			node = l->begin;
 		}
 		
-		node = l->begin;
+		if(i == 0){
+			setTempo(e);
+		}
+		
+		
 	}
 }
 
+/*	
+	Função que controla o elevador conforme as regras da estratégia Shortest Job First
+	Parâmetros:
+		(Elevador*) @e -> elevador
+		(Lista*) @l -> lista de solicitações
+		(Lista*) @est -> lista usada para cálculos estatísticos
+	Variáveis locais:
+		(Lista*) @aux -> lista auxiliar usada para fazer operações e sofrer modificações. Ela recebe o conteúdo da lista @l.
+		(Node*) @temp -> nó temporário que recebe o nó da solicitação mais próxima do elevador a cada repetição do loop
+	Retorna:
+		Função do tipo vazio
+*/
 void sjf(Elevador* e, Lista* l, Lista* est){
-
 	while(!isEmpety(l)){
-		
 		if(!isFull(e))
-			sjfNotFull(e, l, est);
-		
+			sjf_funny(e, l, est);
 		else
-			sjf_full(e, l, est);
+			sjf_boring(e, l, est);
 	}	
 }
-//-------------Metodos Auxiliares FCFS-------------//
 
-//Caso em que o elevador lota
-void fcfsFull(Elevador* e, Lista* l, Lista* est){
-	Node* node = createNode();
-	node = est->begin;
-	
-	int destino, b = 1;
-	
-	//Escolhe a solicitação de id menor já dentro do elevador
-	while(b){
-		
-		if(node->demand.status == 1){
-			printf("deu ruim aqui\n");
-			b = 0; //sai do loop
-			destino = node->demand.destino;
-		}
-	}
-	//Atende a solicitação escolhida
-	go(e, l, est, destino);
-}
-
-//(getCapacidade(e) - getLotacao(e)) >= 1
-void fcfsNotFull(Elevador* e, Lista* l, Lista* est){
-	int b = 0;//guarda se foi realizada alguma movimentação no elevador
-
-	Node* node = createNode();
-	node = l->begin;
-
-
-	//Se a demanda tiver status pendente vá para sua origem
-	if(node->demand.tempo <= getTempo(e) && node->demand.status == 0){
-			
-		go(e, l, est, node->demand.origem);
-		b = 1;
-	}
-
-	//Se a demanda tiver status em atendimento vá para o destino dela
-	else if(node->demand.status == 1){	
-		go(e, l, est, node->demand.destino);
-		b = 1;
-	}
-	if(b == 0)		
-		setTempo(e);
-	
-}
-
-//-------------Metodos Auxiliares SJF-------------//
-
-//Elevador Lotado
-void sjf_full(Elevador* e, Lista* l, Lista* est){
-	
-	Node* node = createNode();
-	node = l->begin;
-	
-	// Distancia superior a máxima
-	int distancia = abs(getAndarMax(e)) + abs(getAndarMin(e))+1;
-	int destino;
-	
-	calculaDistancia(e, l);
-
-	//Escolhe a solicitação com menor distancia dentro do elevador
-	while(node != NULL){
-
-		if(node->demand.status == 1 && distancia > node->demand.d){
-			
-			distancia = node->demand.d;
-			destino = node->demand.destino;
-		}
-
-		node = node->next;
-	}	
-
-	//Atende essa solicitação
-	go(e, l, est, destino);
-}
-
-//O elevador não está lotado
-void sjfNotFull(Elevador* e, Lista* l, Lista* est){
+void sjf_funny(Elevador* e, Lista* l, Lista* est){
 	
 	Node* node = createNode();
 	
 	calculaDistancia(e, l);
 	node = shortest(e, l);
 	
-	//Quando houver demanda, atenda-a
-	if(node->demand.tempo <= getTempo(e))
-
-		if(node->demand.status == 0)
+	if(node->demand.tempo <= getTempo(e)){
+		if(node->demand.status == 0){
+			printNode(node);
 			go(e, l, est, node->demand.origem);
-		
-		else
+		}
+		else{
 			go(e, l, est, node->demand.destino);
-		
-	
+		}
+	}
 	else
 		setTempo(e);	
 }
 
-//Calcula a demanda mais Próxima
+void sjf_boring(Elevador* e, Lista* l, Lista* est){
+	Node* node = createNode();
+	node = l->begin;
+	int distancia = abs(getAndarMax(e)) + abs(getAndarMin(e));
+	int destino;
+	calculaDistancia(e, l);
+	
+	while(node != NULL){
+
+		if(node->demand.status == 1 && distancia > node->demand.d){
+			distancia = node->demand.d;
+			destino = node->demand.destino;
+		}
+		node = node->next;
+	}	
+
+	go(e, l, est, destino);
+}
+
+/*	
+	Função que calcula a distância entre cada solicitação e a posição do elevador no instante em que é chamada
+	Parâmetros:
+		(Elevador*) @e -> elevador
+		(Lista*) @l -> lista de solicitações
+	Variáveis locais:
+		(Node*) @pointer -> nó que percorre toda a lista @l
+	Retorna:
+		Função do tipo vazio
+*/
+void calculaDistancia(Elevador* e, Lista* l) {
+	Node* pointer = l->begin;
+	while (pointer != NULL) {
+		/*
+			Se for uma solicitação do tipo embarque, a distância é calculada em relação a origem da solicitação e o elevador,
+			desde que a origem não seja na mesma posição do elevador. Neste caso é calculada em relção ao destino da solicitação.
+		*/
+		if (pointer->demand.status == 0){
+			if(e->posicao == pointer->demand.origem)
+				pointer->demand.d = abs(pointer->demand.destino - e->posicao);
+			else
+				pointer->demand.d = abs(pointer->demand.origem - e->posicao);
+		}
+
+		/*
+			Se for uma solicitação do tipo desembarque, a distância é calculada em relação ao destino da solicitação e o elevador.
+		*/
+		else if (pointer->demand.status == 1)
+			pointer->demand.d = abs(pointer->demand.destino - e->posicao);
+		
+		pointer = pointer->next;	
+	}
+}
+
+/*	
+	Função que encontra a solcitação com menor distância
+	Parâmetros:
+		(Elevador*) @e -> elevador
+		(Lista*) @l -> lista de solicitações
+	Variáveis locais:
+		(Node*) @node -> nó que percorre toda a lista @l
+		(Node*) @aux -> nó que percorre a lista @l até encontrar a menor distancia. Tem a função de auxiliar nas comparações.
+	Retorna:
+		Nó @aux encontrada
+*/
 Node* shortest(Elevador* e, Lista* l){
 	
 	Node* aux = createNode();
@@ -156,27 +178,3 @@ Node* shortest(Elevador* e, Lista* l){
 
 	return aux;
 }
-
-//Calcula a distancia de cada solicitaçao até o elevador
-void calculaDistancia(Elevador* e, Lista* l) {
-	Node* pointer = l->begin;
-	while (pointer != NULL) {
-		
-		if (pointer->demand.status == 0)
-
-			if(e->posicao == pointer->demand.origem)
-				pointer->demand.d = abs(pointer->demand.destino - e->posicao);
-
-			else
-				pointer->demand.d = abs(pointer->demand.origem - e->posicao);
-		
-		else if (pointer->demand.status == 1)
-			pointer->demand.d = abs(pointer->demand.destino - e->posicao);
-		
-		pointer = pointer->next;	
-	}
-}
-
-
-
-

@@ -1,8 +1,9 @@
 #include "headers/lista.h"
 #include "headers/elevador.h"
-#include "headers/impressao.h"
+#include "headers/data.h"
 #include <stdlib.h>
 #include <stdio.h>
+//-----Funções de Gerenciamento Simples de Elevador-----//
 
 //-------------"Classe Elevador"-------------//
 
@@ -14,8 +15,12 @@ Elevador* newElevador(int min, int max, int c){
 	e->capacidade = c;//static
 	e->tempo = 0;
 	e->operacao = 0;
-	e->lotacao=0;
-	e->posicao=7;
+	e->lotacao = 0;
+	e->deslocamento = 0;
+	if(min <= 0 && max >= 0)
+		e->posicao = 0;
+	else
+		e->posicao = min;
 	return e;
 }
 
@@ -43,7 +48,6 @@ int getPosicao(Elevador* e){
 	return e->posicao;
 }
 
-
 int getLotacao(Elevador* e){
 	return e->lotacao;
 }
@@ -52,6 +56,9 @@ int getOperacao(Elevador* e){
 	return e->operacao;
 }
 
+int getDeslocamento(Elevador* e){
+	return e->deslocamento;
+}
 
 //-------------Setters-------------//
 void setTempo(Elevador* e){
@@ -65,6 +72,7 @@ void setOperacao(Elevador* e, int operacao){
 
 
 void setPosicao(Elevador* e, int o){
+	e->deslocamento++;
 	if(o){
 		e->posicao++;
 		setTempo(e);
@@ -80,7 +88,6 @@ void setLotacao(Elevador* e, int o){
 		setTempo(e);
 		setOperacao(e, 1);
 	}
-
 	if(o)
 		e->lotacao++;
 	else
@@ -143,8 +150,6 @@ void stop(Elevador* e, Lista* l, Lista* est){
 
 	//Agora embarque todas as solicitações possíveis neste andar
 	aux = est->begin;
-	if(isFull(e))
-		exit(1);
 	while(aux != NULL){
 
 		if(aux->demand.status == 0 && aux->demand.tempo <= getTempo(e) &&
@@ -160,8 +165,6 @@ void stop(Elevador* e, Lista* l, Lista* est){
 
 //Vai para o destino destino
 void go(Elevador* e, Lista* l, Lista* est, int destino){
-	if(isFull(e))
-		exit(1);
 	if(destino > e->posicao)
 		goUp(e, l, est, destino);
 	else if(destino < e->posicao)
@@ -172,33 +175,20 @@ void go(Elevador* e, Lista* l, Lista* est, int destino){
 
 //Vai para cima
 void goUp(Elevador* e, Lista* l, Lista* est, int destino){
-
 	stop(e, l, est);
 	while(getPosicao(e) != destino){
-		
 		setPosicao(e, 1);
 		stop(e, l, est);
-		if(isFull(e))
-			return;
-		// printStatus(e);
-		// int c = getchar();
 	}
 	stop(e, l, est);
-	// printStatus(e);
 }
 
 //Vai para baixo
 void goDown(Elevador* e, Lista* l, Lista* est, int destino){
 	stop(e, l, est);	
 	while(getPosicao(e) != destino){
-		
 		setPosicao(e, 0);
 		stop(e, l, est);
-		if(isFull(e))
-			return;
-		// printStatus(e);
-		// int c = getchar();
 	}
 	stop(e, l, est);
-	// printStatus(e);
 }
